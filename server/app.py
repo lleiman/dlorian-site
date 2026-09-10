@@ -574,6 +574,17 @@ def catalog():
     ]})
 
 
+@app.get("/api/admin/comments")
+def all_comments():
+    """Все отзывы разом — в контекстной панели их не видно, они лежат
+    по одной работе, а модерировать удобнее списком."""
+    if not is_admin():
+        abort(404)
+    rows = db().execute(
+        "SELECT * FROM comments ORDER BY id DESC LIMIT 300").fetchall()
+    return jsonify({"comments": [dict(shape(r, True), work=r["work"]) for r in rows]})
+
+
 @app.get("/api/admin/pending")
 def pending():
     if not is_admin():
@@ -599,6 +610,8 @@ EMAIL_RE = re.compile(r"^[^@\s]{1,64}@[^@\s.]{1,63}(\.[^@\s.]{1,63})+$")
 def note_hit(path):
     """Считает просмотр страницы. Никогда не роняет выдачу: счётчик —
     не та вещь, ради которой стоит показать посетителю ошибку."""
+    if path == "admin.html":
+        return          # свои заходы в админку — не посещения сайта
     try:
         ref = ""
         r = request.headers.get("Referer", "")
@@ -642,7 +655,7 @@ def home():
 # уехали бы и исходники сервера, и _select с путями к оригиналам.
 # w/ — страница каждой работы: её можно дать ссылкой и она попадает в поиск
 OPEN_DIRS = ("assets/", "s/", "w/")
-OPEN_FILES = {"index.html", "deck.html", "shows.html",
+OPEN_FILES = {"index.html", "deck.html", "shows.html", "admin.html",
               "favicon.ico", "robots.txt", "sitemap.xml"}
 
 

@@ -40,7 +40,7 @@ SITE_URL = os.environ.get("SITE_URL", "https://dlorian.art")
 
 # версия в ссылках на css/js: Caddy отдаёт статику с длинным кешем,
 # без неё правки стилей не доедут до тех, кто уже открывал сайт
-VER = os.environ.get("ASSET_VER", "30")
+VER = os.environ.get("ASSET_VER", "32")
 
 SLUG = {
     "VELOCITY": "velocity", "BODY": "body", "KISSING": "kissing",
@@ -422,6 +422,7 @@ else:
 # работу, запомнил имя, вбил его.
 (SITE / "robots.txt").write_text(
     "User-agent: *\nAllow: /\n"
+    "Disallow: /admin.html\n"
     f"Sitemap: {SITE_URL}/sitemap.xml\n"
 )
 

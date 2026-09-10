@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Админка — DLORIAN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400&display=swap">
+<style>
+/* Отдельная админка: всё содержимое сайта в одном месте, без хождения
+   по страницам. Контекстная панель на Ctrl+Shift+E осталась — она удобна
+   для быстрой правки того, что перед глазами. */
+:root{
+  --ground:#000; --panel:#0a0a0a; --edge:#1c1c1c;
+  --ink:#f2f2f2; --dim:#7a7a7a; --faint:#3a3a3a; --act:#8a8a8a;
+  --warn:#e2705c;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+/* display:flex у .gate и .wrap перебивает атрибут hidden — без этого
+   форма входа остаётся на экране после входа */
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font:400 13px/1.55 var(--mono);-webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column}
+a{color:inherit}
+:focus-visible{outline:1px solid var(--ink);outline-offset:2px}
+
+.top{flex:0 0 auto;display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;
+  padding:13px 20px;border-bottom:1px solid var(--edge)}
+.top b{font-weight:500;letter-spacing:2.2px;text-transform:uppercase}
+.top .who{color:var(--dim);font-size:11px;letter-spacing:.6px}
+.top .right{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+
+.wrap{flex:1 1 auto;min-height:0;display:flex}
+.side{flex:0 0 auto;width:212px;border-right:1px solid var(--edge);
+  padding:14px 0;overflow-y:auto}
+.side button{display:block;width:100%;text-align:left;background:none;border:0;
+  padding:11px 20px;cursor:pointer;color:var(--dim);
+  font:400 12px/1 var(--mono);letter-spacing:1.1px;text-transform:uppercase;
+  transition:color .15s ease}
+.side button:hover{color:var(--ink)}
+.side button[data-on]{color:var(--ink)}
+.side button[data-on]::before{content:"▸ ";color:var(--act)}
+.side i{font-style:normal;color:var(--faint);margin-left:6px}
+
+.main{flex:1 1 auto;min-width:0;overflow-y:auto;padding:22px 24px 60px}
+.main h2{margin:0 0 4px;font:500 15px/1.2 var(--mono);letter-spacing:1.6px;
+  text-transform:uppercase}
+.hint{margin:0 0 18px;color:var(--dim);font:400 12px/1.5 var(--sans);max-width:64ch}
+
+.btn{background:none;border:1px solid var(--edge);color:var(--act);
+  font:400 11px/1 var(--mono);letter-spacing:.8px;text-transform:uppercase;
+  padding:9px 12px;min-height:36px;cursor:pointer;flex:0 0 auto;
+  transition:color .15s ease,border-color .15s ease}
+.btn:hover{color:var(--ink);border-color:var(--faint)}
+.btn[disabled]{opacity:.45;cursor:default}
+.btn.go{color:var(--ink);border-color:var(--faint)}
+.btn.bad:hover{color:var(--warn);border-color:var(--warn)}
+
+textarea,input[type=text],input[type=email],select{
+  background:var(--panel);border:1px solid var(--edge);color:var(--ink);
+  font:400 13px/1.45 var(--sans);padding:9px 10px;width:100%;resize:vertical}
+select{font-family:var(--mono);font-size:12px}
+textarea:focus,input:focus,select:focus{outline:0;border-color:var(--faint)}
+::placeholder{color:var(--faint)}
+
+.lab{display:block;color:var(--dim);font-size:11px;letter-spacing:.8px;
+  text-transform:uppercase;margin:16px 0 6px}
+.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.col{display:flex;flex-direction:column;gap:9px}
+
+.card{border:1px solid var(--edge);padding:8px;display:flex;gap:11px;
+  align-items:center;margin-bottom:6px}
+.card img{width:190px;height:120px;object-fit:contain;background:var(--ground);
+  border:1px solid var(--edge);flex:0 0 auto;cursor:zoom-in;
+  transform-origin:left center;transition:transform .18s ease;position:relative}
+.card img:hover{transform:scale(2.4);z-index:5}
+.card .no{color:var(--dim);font-variant-numeric:tabular-nums;flex:0 0 auto}
+.card .grow{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:5px}
+.card .price{max-width:130px}
+
+.bar{position:sticky;bottom:0;background:var(--ground);
+  border-top:1px solid var(--edge);padding:12px 0 0;margin-top:22px;
+  display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.msg{color:var(--dim);font-size:11px;letter-spacing:.4px}
+.msg[data-bad]{color:var(--warn)}
+
+table{border-collapse:collapse;width:100%;font-size:12px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--edge);
+  vertical-align:top}
+th{color:var(--dim);font-weight:400;font-size:11px;letter-spacing:.8px;
+  text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--dim)}
+
+.gate{margin:auto;max-width:340px;display:flex;flex-direction:column;gap:12px;
+  padding:40px 20px;text-align:center}
+.cmt{border:1px solid var(--edge);padding:10px;margin-bottom:8px;
+  display:flex;gap:12px;align-items:flex-start}
+.cmt img{width:120px;height:80px;object-fit:cover;border:1px solid var(--edge);
+  flex:0 0 auto}
+.cmt .body{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:5px}
+.cmt .who{color:var(--dim);font-size:11px;letter-spacing:.8px;text-transform:uppercase}
+.cmt p{margin:0;font:400 13px/1.45 var(--sans);overflow-wrap:anywhere}
+.tag{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--warn)}
+
+@media (max-width:760px){
+  .wrap{flex-direction:column}
+  .side{width:auto;border-right:0;border-bottom:1px solid var(--edge);
+    display:flex;overflow-x:auto;padding:0}
+  .side button{width:auto;white-space:nowrap;padding:13px 14px}
+  .card{flex-wrap:wrap}
+  .card img{width:130px;height:86px}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <b>Админка</b>
+  <span class="who" id="who"></span>
+  <span class="right">
+    <a class="btn" href="/" target="_blank">сайт ↗</a>
+    <button class="btn" id="rebuild">пересобрать</button>
+    <button class="btn" id="forget">забыть токен</button>
+  </span>
+</div>
+
+<div class="wrap" id="wrap" hidden>
+  <nav class="side" id="side"></nav>
+  <main class="main" id="main"></main>
+</div>
+
+<div class="gate" id="gate">
+  <span class="lab" style="margin:0">Токен админки</span>
+  <input type="text" id="tok" placeholder="токен" autocomplete="off">
+  <button class="btn go" id="enter">войти</button>
+  <span class="msg" id="gatemsg"></span>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var KEY = "dl-admin";
+  var side = document.getElementById("side");
+  var main = document.getElementById("main");
+  var wrap = document.getElementById("wrap");
+  var gate = document.getElementById("gate");
+  var cache = {};          /* загруженные json, чтобы не дёргать сервер зря */
+  var current = "index";
+
+  function tok() { try { return localStorage.getItem(KEY) || ""; } catch (e) { return ""; } }
+
+  function api(url, opts) {
+    opts = opts || {};
+    opts.headers = opts.headers || {};
+    opts.headers["X-Admin"] = tok();
+    return fetch(url, opts).then(function (r) {
+      if (r.status === 404) throw new Error("неверный токен или ручки нет");
+      return r.json().then(function (j) {
+        if (!r.ok) throw new Error(j && j.error ? j.error : "не вышло");
+        return j;
+      });
+    });
+  }
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function pad(n) { return String(n).padStart(3, "0"); }
+
+  /* текст из notes.json бывает строкой (автор) или объектом (засеянный промпт) */
+  function txt(v) {
+    if (!v) return "";
+    return typeof v === "string" ? v : (v.text || "");
+  }
+
+  function load(file) {
+    if (cache[file]) return Promise.resolve(cache[file]);
+    return api("/api/admin/content?file=" + file).then(function (r) {
+      cache[file] = r.data;
+      return r.data;
+    });
+  }
+
+  function save(file, data, msg) {
+    msg.removeAttribute("data-bad");
+    msg.textContent = "сохраняю и пересобираю…";
+    return api("/api/admin/content?file=" + file, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    }).then(function (r) {
+      cache[file] = data;
+      msg.textContent = r.rebuilt ? "сохранено, сайт пересобран" : "сохранено, но сборка не прошла";
+      if (!r.rebuilt) msg.setAttribute("data-bad", "");
+    }).catch(function (e) {
+      msg.textContent = e.message || "не сохранилось";
+      msg.setAttribute("data-bad", "");
+    });
+  }
+
+  function footer(onSave) {
+    var bar = el("div", "bar");
+    var msg = el("span", "msg");
+    var b = el("button", "btn go", "сохранить и пересобрать");
+    b.onclick = function () {
+      b.disabled = true;
+      Promise.resolve(onSave(msg)).then(function () { b.disabled = false; });
+    };
+    bar.appendChild(b);
+    bar.appendChild(msg);
+    main.appendChild(bar);
+    return msg;
+  }
+
+  function head(title, hint) {
+    main.innerHTML = "";
+    main.appendChild(el("h2", null, title));
+    if (hint) main.appendChild(el("p", "hint", hint));
+  }
+
+  /* ---------- разделы ---------- */
+  var SECTIONS = [];
+
+  function addSection(id, label, render) {
+    SECTIONS.push({ id: id, label: label, render: render });
+  }
+
+  addSection("index", "Главная", function () {
+    head("Манифест", "Первое, что читает человек после картинки. Пусто — блок не появится.");
+    load("notes.json").then(function (notes) {
+      var t = document.createElement("textarea");
+      t.rows = 6;
+      t.value = txt(notes._manifest);
+      main.insertBefore(t, main.querySelector(".bar"));
+      var msg = footer(function (m) {
+        notes._manifest = t.value.trim();
+        return save("notes.json", notes, m);
+      });
+      void msg;
+    }).catch(fail);
+  });
+
+  addSection("series", "Серии", function () {
+    head("Серии", "Заявление, тексты между работами, состав, порядок и цены.");
+    Promise.all([load("notes.json"), load("series.json"), load("prices.json"),
+                 api("/api/admin/catalog")]).then(function (r) {
+      var notes = r[0], series = r[1], prices = r[2], cat = r[3].works;
+      var pick = el("select");
+      Object.keys(series).forEach(function (nm) {
+        var o = document.createElement("option");
+        o.value = nm; o.textContent = nm + " — " + series[nm].length;
+        pick.appendChild(o);
+      });
+      var picker = el("div", "row");
+      picker.appendChild(pick);
+      main.appendChild(picker);
+      var box = el("div");
+      main.appendChild(box);
+
+      function draw() {
+        var nm = pick.value;
+        var list = series[nm].slice();
+        var nd = notes[nm] || (notes[nm] = { lead: "", notes: [] });
+        box.innerHTML = "";
+
+        box.appendChild(el("span", "lab", "Заявление серии"));
+        var lead = document.createElement("textarea");
+        lead.rows = 4; lead.value = txt(nd.lead);
+        box.appendChild(lead);
+
+        box.appendChild(el("span", "lab", "Тексты между работами"));
+        var notesBox = el("div", "col");
+        box.appendChild(notesBox);
+        var inputs = [];
+        function addNote(v) {
+          var row = el("div", "row");
+          var t = document.createElement("textarea");
+          t.rows = 2; t.value = v || "";
+          t.style.flex = "1 1 auto";
+          var rm = el("button", "btn bad", "✕");
+          rm.onclick = function () { row.remove(); t.dataset.gone = "1"; };
+          row.appendChild(t); row.appendChild(rm);
+          notesBox.appendChild(row);
+          inputs.push(t);
+        }
+        (nd.notes || []).forEach(function (x) { addNote(txt(x)); });
+        var addBtn = el("button", "btn", "+ текст");
+        addBtn.onclick = function () { addNote(""); };
+        box.appendChild(addBtn);
+
+        box.appendChild(el("span", "lab", "Работы — порядок, цена, удаление"));
+        var works = el("div");
+        box.appendChild(works);
+
+        function drawWorks() {
+          works.innerHTML = "";
+          list.forEach(function (n, i) {
+            var c = el("div", "card");
+            var im = document.createElement("img");
+            im.src = "/assets/thumb/" + pad(n) + ".jpg";
+            im.loading = "lazy";
+            c.appendChild(im);
+            c.appendChild(el("span", "no", pad(n)));
+
+            var grow = el("div", "grow");
+            var pr = prices[String(n)] || {};
+            if (typeof pr === "string") pr = { price: pr, status: "available" };
+            var pin = document.createElement("input");
+            pin.type = "text"; pin.className = "price"; pin.placeholder = "цена";
+            pin.value = pr.price || "";
+            var sel = el("select");
+            [["available", "в продаже"], ["request", "по запросу"],
+             ["reserved", "бронь"], ["sold", "продано"]].forEach(function (o) {
+              var op = document.createElement("option");
+              op.value = o[0]; op.textContent = o[1];
+              sel.appendChild(op);
+            });
+            sel.value = pr.status || "available";
+            function keep() {
+              var v = pin.value.trim(), st = sel.value;
+              if (!v && st === "available") delete prices[String(n)];
+              else prices[String(n)] = { price: v, status: st };
+            }
+            pin.oninput = keep; sel.onchange = keep;
+            var prow = el("div", "row");
+            prow.appendChild(pin); prow.appendChild(sel);
+            grow.appendChild(prow);
+            c.appendChild(grow);
+
+            var up = el("button", "btn", "↑");
+            up.onclick = function () {
+              if (i > 0) { list.splice(i - 1, 0, list.splice(i, 1)[0]); drawWorks(); }
+            };
+            var dn = el("button", "btn", "↓");
+            dn.onclick = function () {
+              if (i < list.length - 1) { list.splice(i + 1, 0, list.splice(i, 1)[0]); drawWorks(); }
+            };
+            var rm = el("button", "btn bad", "✕");
+            rm.onclick = function () { list.splice(i, 1); drawWorks(); };
+            c.appendChild(up); c.appendChild(dn); c.appendChild(rm);
+            works.appendChild(c);
+          });
+        }
+        drawWorks();
+
+        var addRow = el("div", "row");
+        var inp = document.createElement("input");
+        inp.type = "text"; inp.placeholder = "номер работы"; inp.style.maxWidth = "180px";
+        var addW = el("button", "btn", "добавить работу");
+        var warn = el("span", "msg");
+        addW.onclick = function () {
+          var n = parseInt(inp.value, 10);
+          if (!cat.some(function (w) { return w.n === n; })) {
+            warn.textContent = "работы " + inp.value + " не существует";
+            warn.setAttribute("data-bad", ""); return;
+          }
+          if (list.indexOf(n) >= 0) { warn.textContent = "уже в серии"; return; }
+          list.push(n); inp.value = ""; warn.textContent = ""; warn.removeAttribute("data-bad");
+          drawWorks();
+        };
+        addRow.appendChild(inp); addRow.appendChild(addW); addRow.appendChild(warn);
+        box.appendChild(addRow);
+
+        var old = main.querySelector(".bar");
+        if (old) old.remove();
+        footer(function (m) {
+          nd.lead = lead.value.trim();
+          nd.notes = inputs.filter(function (t) { return !t.dataset.gone; })
+            .map(function (t) { return t.value.trim(); }).filter(Boolean);
+          series[nm] = list;
+          return save("notes.json", notes, m)
+            .then(function () { return save("series.json", series, m); })
+            .then(function () { return save("prices.json", prices, m); });
+        });
+      }
+      pick.onchange = draw;
+      draw();
+    }).catch(fail);
+  });
+
+  addSection("deck", "Витрина", function () {
+    head("Витрина", "Одна работа на экран. Имя и подпись — то, что превращает архив в высказывание.");
+    Promise.all([load("deck.json"), api("/api/admin/catalog")]).then(function (r) {
+      var deck = r[0].slice(), cat = r[1].works;
+      var box = el("div");
+      main.appendChild(box);
+      function draw() {
+        box.innerHTML = "";
+        deck.forEach(function (d, i) {
+          var c = el("div", "card");
+          var im = document.createElement("img");
+          im.src = "/assets/thumb/" + pad(d.n) + ".jpg";
+          im.loading = "lazy";
+          c.appendChild(im);
+          var grow = el("div", "grow");
+          grow.appendChild(el("span", "no", pad(d.n) + " · " + d.series));
+          var nameI = document.createElement("input");
+          nameI.type = "text"; nameI.placeholder = "имя работы";
+          nameI.value = d.name || "";
+          nameI.oninput = function () { d.name = nameI.value; };
+          var noteI = document.createElement("input");
+          noteI.type = "text"; noteI.placeholder = "подпись — что это";
+          noteI.value = d.note || "";
+          noteI.oninput = function () { d.note = noteI.value; };
+          grow.appendChild(nameI); grow.appendChild(noteI);
+          c.appendChild(grow);
+          var up = el("button", "btn", "↑");
+          up.onclick = function () {
+            if (i > 0) { deck.splice(i - 1, 0, deck.splice(i, 1)[0]); draw(); }
+          };
+          var dn = el("button", "btn", "↓");
+          dn.onclick = function () {
+            if (i < deck.length - 1) { deck.splice(i + 1, 0, deck.splice(i, 1)[0]); draw(); }
+          };
+          var rm = el("button", "btn bad", "✕");
+          rm.onclick = function () { deck.splice(i, 1); draw(); };
+          c.appendChild(up); c.appendChild(dn); c.appendChild(rm);
+          box.appendChild(c);
+        });
+      }
+      draw();
+      var addRow = el("div", "row");
+      var inp = document.createElement("input");
+      inp.type = "text"; inp.placeholder = "номер работы"; inp.style.maxWidth = "180px";
+      var add = el("button", "btn", "добавить в витрину");
+      var warn = el("span", "msg");
+      add.onclick = function () {
+        var n = parseInt(inp.value, 10);
+        var w = cat.filter(function (x) { return x.n === n; })[0];
+        if (!w) { warn.textContent = "нет такой работы"; warn.setAttribute("data-bad", ""); return; }
+        if (!w.series) { warn.textContent = "работа не входит ни в одну серию"; return; }
+        if (deck.some(function (d) { return d.n === n; })) { warn.textContent = "уже в витрине"; return; }
+        deck.push({ n: n, series: w.series, name: "", note: "" });
+        inp.value = ""; warn.textContent = ""; draw();
+      };
+      addRow.appendChild(inp); addRow.appendChild(add); addRow.appendChild(warn);
+      main.appendChild(addRow);
+      footer(function (m) { return save("deck.json", deck, m); });
+    }).catch(fail);
+  });
+
+  addSection("shows", "Показы", function () {
+    head("Показы", "Пока нет ни одной даты — страница и ссылка на неё не появляются.");
+    load("shows.json").then(function (data) {
+      var shows = (data || []).slice();
+      var box = el("div", "col");
+      main.appendChild(box);
+      function draw() {
+        box.innerHTML = "";
+        shows.forEach(function (x, i) {
+          var row = el("div", "row");
+          [["date", "2026-11-14"], ["city", "город"],
+           ["venue", "площадка"], ["note", "примечание"]].forEach(function (k) {
+            var inp = document.createElement("input");
+            inp.type = "text"; inp.placeholder = k[1];
+            inp.value = x[k[0]] || "";
+            inp.style.flex = "1 1 130px";
+            inp.oninput = function () { x[k[0]] = inp.value; };
+            row.appendChild(inp);
+          });
+          var rm = el("button", "btn bad", "✕");
+          rm.onclick = function () { shows.splice(i, 1); draw(); };
+          row.appendChild(rm);
+          box.appendChild(row);
+        });
+      }
+      draw();
+      var add = el("button", "btn", "+ показ");
+      add.onclick = function () { shows.push({ date: "", city: "", venue: "", note: "" }); draw(); };
+      main.appendChild(add);
+      footer(function (m) {
+        return save("shows.json", shows.filter(function (x) {
+          return (x.date || "").trim() || (x.city || "").trim();
+        }), m);
+      });
+    }).catch(fail);
+  });
+
+  addSection("comments", "Отзывы", function () {
+    head("Отзывы", "Фото ждут одобрения: открытая загрузка картинок на публичный адрес — приглашение для мусора.");
+    api("/api/admin/comments").then(function (r) {
+      var list = r.comments || [];
+      if (!list.length) { main.appendChild(el("p", "hint", "Пока ни одного отзыва.")); return; }
+      var box = el("div");
+      main.appendChild(box);
+      list.forEach(function (c) {
+        var row = el("div", "cmt");
+        if (c.rawPhoto) {
+          var im = document.createElement("img");
+          im.src = c.rawPhoto; im.loading = "lazy";
+          row.appendChild(im);
+        }
+        var body = el("div", "body");
+        var who = el("div", "who", c.name + " · работа " + pad(c.work) + " · " + (c.at || "").slice(0, 10));
+        body.appendChild(who);
+        body.appendChild(el("p", null, c.body));
+        if (c.rawPhoto && !c.approved) body.appendChild(el("span", "tag", "фото ждёт одобрения"));
+        if (c.hidden) body.appendChild(el("span", "tag", "скрыт"));
+        row.appendChild(body);
+
+        var acts = el("div", "col");
+        function act(label, action, cls) {
+          var b = el("button", "btn" + (cls ? " " + cls : ""), label);
+          b.onclick = function () {
+            b.disabled = true;
+            api("/api/admin/comment/" + c.id, {
+              method: "POST", headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ action: action })
+            }).then(function () { row.remove(); })
+              .catch(function () { b.disabled = false; });
+          };
+          acts.appendChild(b);
+        }
+        if (c.rawPhoto && !c.approved) act("одобрить фото", "approve");
+        act(c.hidden ? "показать" : "скрыть", c.hidden ? "show" : "hide");
+        act("удалить", "delete", "bad");
+        row.appendChild(acts);
+        box.appendChild(row);
+      });
+    }).catch(fail);
+  });
+
+  addSection("subs", "Подписчики", function () {
+    head("Подписчики", "Единственная аудитория, которая принадлежит тебе, а не площадке.");
+    api("/api/admin/subs").then(function (r) {
+      var subs = r.subs || [];
+      if (!subs.length) { main.appendChild(el("p", "hint", "Пока никто не подписался.")); return; }
+      var t = el("table");
+      t.innerHTML = "<tr><th>Почта</th><th>Когда</th></tr>";
+      subs.forEach(function (s) {
+        var tr = el("tr");
+        tr.appendChild(el("td", null, s.email));
+        tr.appendChild(el("td", "num", (s.at || "").slice(0, 10)));
+        t.appendChild(tr);
+      });
+      main.appendChild(t);
+      var copy = el("button", "btn", "скопировать все адреса");
+      copy.onclick = function () {
+        var all = subs.map(function (s) { return s.email; }).join(", ");
+        if (navigator.clipboard) navigator.clipboard.writeText(all).then(function () {
+          copy.textContent = "скопировано";
+          setTimeout(function () { copy.textContent = "скопировать все адреса"; }, 1800);
+        });
+      };
+      main.appendChild(copy);
+    }).catch(fail);
+  });
+
+  addSection("stats", "Статистика", function () {
+    head("Статистика", "Считается по дню, странице и домену-источнику. Ни кук, ни адресов.");
+    api("/api/admin/stats").then(function (d) {
+      var sum = el("p", "hint",
+        "Всего просмотров: " + d.total + ". Подписчиков: " + d.subs + ".");
+      main.appendChild(sum);
+
+      function table(title, rows, keyName) {
+        if (!rows || !rows.length) return;
+        main.appendChild(el("span", "lab", title));
+        var t = el("table");
+        t.innerHTML = "<tr><th>" + keyName + "</th><th>Просмотров</th></tr>";
+        rows.forEach(function (r) {
+          var tr = el("tr");
+          tr.appendChild(el("td", null, r.day || r.path || r.ref));
+          tr.appendChild(el("td", "num", String(r.n)));
+          t.appendChild(tr);
+        });
+        main.appendChild(t);
+      }
+      table("По дням", d.days, "День");
+      table("По страницам", d.pages, "Страница");
+      table("Откуда пришли", d.refs, "Источник");
+      if (!d.refs || !d.refs.length) {
+        main.appendChild(el("p", "hint",
+          "Источников пока нет: значит, никто не переходил по ссылке со стороны."));
+      }
+    }).catch(fail);
+  });
+
+  function fail(e) {
+    main.appendChild(el("p", "hint", "Не загрузилось: " + (e.message || e)));
+  }
+
+  /* ---------- каркас ---------- */
+  function build() {
+    side.innerHTML = "";
+    SECTIONS.forEach(function (s) {
+      var b = el("button", null, s.label);
+      if (s.id === current) b.setAttribute("data-on", "");
+      b.onclick = function () {
+        current = s.id;
+        location.hash = s.id;
+        build();
+        s.render();
+      };
+      side.appendChild(b);
+    });
+  }
+
+  function start() {
+    gate.hidden = true;
+    wrap.hidden = false;
+    var h = (location.hash || "").replace("#", "");
+    if (SECTIONS.some(function (s) { return s.id === h; })) current = h;
+    build();
+    SECTIONS.filter(function (s) { return s.id === current; })[0].render();
+    api("/api/admin/stats").then(function (d) {
+      document.getElementById("who").textContent =
+        d.total + " просмотров · " + d.subs + " подписчиков";
+    }).catch(function () {});
+  }
+
+  document.getElementById("enter").onclick = function () {
+    var v = document.getElementById("tok").value.trim();
+    if (!v) return;
+    try { localStorage.setItem(KEY, v); } catch (e) {}
+    api("/api/admin/stats").then(start).catch(function () {
+      document.getElementById("gatemsg").textContent = "токен не подошёл";
+      document.getElementById("gatemsg").setAttribute("data-bad", "");
+    });
+  };
+  document.getElementById("tok").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") document.getElementById("enter").click();
+  });
+
+  document.getElementById("forget").onclick = function () {
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    location.reload();
+  };
+
+  document.getElementById("rebuild").onclick = function (e) {
+    var b = e.target;
+    b.disabled = true;
+    var was = b.textContent;
+    b.textContent = "собираю…";
+    api("/api/admin/rebuild", { method: "POST" }).then(function (r) {
+      b.textContent = r.rebuilt ? "собрано" : "не собралось";
+    }).catch(function () { b.textContent = "не вышло"; })
+      .then(function () {
+        setTimeout(function () { b.textContent = was; b.disabled = false; }, 2000);
+      });
+  };
+
+  if (tok()) {
+    api("/api/admin/stats").then(start).catch(function () {
+      gate.hidden = false;
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -477,6 +477,13 @@
     head.appendChild(ael("span", "actx",
       ctx === "series" ? "серия " + seriesName() :
       ctx === "deck" ? "витрина" : "главная"));
+    var full = document.createElement("a");
+    full.className = "abtn";
+    full.href = "/admin.html";
+    full.textContent = "вся админка";
+    full.style.textDecoration = "none";
+    head.appendChild(full);
+
     var forget = ael("button", "abtn", "забыть токен");
     forget.onclick = function () {
       try { localStorage.removeItem(AKEY); } catch (e) {}
