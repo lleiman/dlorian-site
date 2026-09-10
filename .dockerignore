@@ -1,0 +1,18 @@
+.git
+.gitignore
+.claude
+README.md
+CLAUDE.md
+.DS_Store
+_build/*
+!_build/pages.py
+# из отбора нужны только данные для сборки; превью и токен наружу не едут
+_select/*
+!_select/manifest.json
+!_select/series.json
+!_select/covers.json
+!_select/best.json
+!_select/notes.json
+!_select/deck.json
+!_select/prices.json
+!_select/shows.json

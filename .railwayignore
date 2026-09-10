@@ -1,0 +1,9 @@
+# Превью для отбора нужны только локально — 20 МБ впустую в каждой загрузке.
+# JSON-данные из _select оставляем: их копирует Dockerfile.
+_select/thumbs
+_select/thumbs_sm
+_select/thumbs_md
+_select/index.html
+_select/*.bak
+_select/admin-token.txt
+.git

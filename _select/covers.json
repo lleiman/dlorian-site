@@ -1,0 +1,44 @@
+{
+ "VELOCITY": {
+  "img": 105,
+  "vid": 90
+ },
+ "BODY": {
+  "img": 333,
+  "vid": 310
+ },
+ "KISSING": {
+  "img": 158
+ },
+ "ORGANISM": {
+  "img": 366,
+  "vid": 354
+ },
+ "THRONE": {
+  "img": 198,
+  "vid": 186
+ },
+ "MYTH": {
+  "img": 71,
+  "vid": 289
+ },
+ "RITUAL": {
+  "img": 74,
+  "vid": 133
+ },
+ "CITY": {
+  "img": 347,
+  "vid": 130
+ },
+ "TATTOO": {
+  "img": 32
+ },
+ "BRAND": {
+  "img": 178,
+  "vid": 54
+ },
+ "CREATURE": {
+  "img": 275,
+  "vid": 291
+ }
+}

@@ -1,0 +1,9 @@
+.DS_Store
+# токен модерации — секрет, в репозиторий не едет
+_select/admin-token.txt
+# превью для отбора: 20 МБ, нужны только локально
+_select/thumbs
+_select/thumbs_sm
+_select/thumbs_md
+_select/index.html
+_select/*.bak
