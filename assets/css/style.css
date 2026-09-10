@@ -1,0 +1,1242 @@
+/* Портфолио Dlorian. Тёмная тема выбрана намеренно и единственная:
+   работы яркие, любой акцентный цвет интерфейса с ними спорит.
+   Поэтому в палитре нет ни одного цветного тона — только нейтрали,
+   цвет на странице приносят сами работы.
+
+   Две гарнитуры делят роли: моноширинная — весь интерфейс, номера и
+   названия; гротеск — только авторские тексты между работами, чтобы
+   мысль читалась как мысль, а не как подпись к файлу. */
+
+:root {
+  --ground: #000;
+  --panel: #0a0a0a;
+  --edge: #1c1c1c;
+  --ink: #f2f2f2;
+  --dim: #7a7a7a;
+  --faint: #3a3a3a;
+  /* Функциональный слой — счётчики, кнопки, меню. Отдельно от --faint,
+     потому что --faint на чёрном даёт контраст 1.85:1 при норме 4.5:1:
+     для тихой подписи это допустимо, для кнопки, которую надо найти и
+     нажать, — нет. У --act контраст 6.1:1. */
+  --act: #8a8a8a;
+
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+
+  --pad: clamp(14px, 2.6vw, 34px);
+  --gap: clamp(30px, 5.5vw, 84px);
+  --wide: 1800px;
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--ground); }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font: 400 13px/1.6 var(--mono);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+img, video { display: block; max-width: 100%; }
+
+:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
+
+/* ---------- шапка ---------- */
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 13px var(--pad);
+  background: rgba(0, 0, 0, .9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--edge);
+}
+
+.mark {
+  font: 500 12px/1 var(--mono);
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+
+.meta {
+  color: var(--dim);
+  font-size: 11px;
+  letter-spacing: .6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.bar nav { margin-left: auto; display: flex; gap: 16px; flex-wrap: wrap; }
+
+.bar nav a {
+  color: var(--dim);
+  font-size: 11px;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  transition: color .16s ease;
+}
+
+.bar nav a:hover { color: var(--ink); }
+
+.bar .menu {
+  background: none;
+  border: 0;
+  padding: 6px 0;
+  cursor: pointer;
+  color: var(--act);
+  font: 400 11px/1 var(--mono);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  transition: color .16s ease;
+}
+
+.bar .menu:hover, .bar .menu[aria-expanded="true"] { color: var(--ink); }
+
+/* ---------- список серий ----------
+   Страница серии — это 30–60 работ и десятки экранов. Без этого списка
+   перейти к соседней серии можно только через самый низ или через главную. */
+
+.menulist {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(0, 0, 0, .97);
+  display: grid;
+  align-content: start;
+  gap: 1px;
+  padding: clamp(70px, 12vh, 120px) var(--pad) var(--pad);
+  overflow-y: auto;
+}
+
+.menulist[hidden] { display: none; }
+
+.menulist a {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 13px 2px;
+  border-bottom: 1px solid var(--edge);
+  font: 500 clamp(16px, 2.6vw, 26px)/1 var(--mono);
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--dim);
+  transition: color .16s ease;
+}
+
+.menulist a:hover, .menulist a.here { color: var(--ink); }
+.menulist a.here::before { content: "▸ "; color: var(--act); }
+.menulist i {
+  margin-left: auto;
+  font: 400 11px/1 var(--mono);
+  font-style: normal;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- наверх ---------- */
+
+.totop {
+  position: fixed;
+  right: var(--pad);
+  bottom: var(--pad);
+  z-index: 25;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 14px;
+  background: rgba(0, 0, 0, .8);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--edge);
+  color: var(--act);
+  font: 400 11px/1 var(--mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, color .16s ease;
+}
+
+.totop[data-on] { opacity: 1; pointer-events: auto; }
+.totop:hover { color: var(--ink); }
+
+/* ---------- первый экран ----------
+   Слайдшоу лучших работ по лайкам. Раньше здесь был смонтированный ролик,
+   но исходные видео всего 832x464 и 624x624 — растянутые на всю ширину они
+   превращались в кашу. Кадры лежат в честных 1600 px.
+
+   Высота нарочно меньше экрана: под слайдшоу должна выглядывать первая
+   серия, иначе страница выглядит как заставка, а не как портфолио. */
+
+.hero {
+  position: relative;
+  height: min(72vh, 720px);
+  overflow: hidden;
+  background: var(--panel);
+}
+
+.hero .slides { position: absolute; inset: 0; }
+
+.hero .slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.1s ease;
+}
+
+.hero .slide.on { opacity: 1; }
+
+.hero .slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, .85) 0%, rgba(0, 0, 0, 0) 45%);
+  pointer-events: none;
+}
+
+.hero .over {
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+  bottom: clamp(18px, 3.5vw, 42px);
+  z-index: 2;
+  display: flex;
+  align-items: baseline;
+  gap: clamp(12px, 2.4vw, 28px);
+  flex-wrap: wrap;
+}
+
+.hero h1 {
+  margin: 0;
+  font: 500 clamp(30px, 7.4vw, 92px)/1 var(--mono);
+  letter-spacing: clamp(3px, 1.1vw, 14px);
+  text-transform: uppercase;
+}
+
+.hero .meta { font-size: clamp(10px, 1.1vw, 12px); }
+
+/* ---------- серии на главной ----------
+   Каждая серия — широкий кадр во всю ширину, под ним блок текста,
+   отжатый то влево, то вправо: лента идёт зигзагом, а не столбиком. */
+
+.bands { display: flex; flex-direction: column; }
+
+.band { border-top: 1px solid var(--edge); }
+.band:first-child { border-top: 0; }
+
+.band .shot {
+  display: block;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--panel);
+}
+
+.band .shot img, .band .shot video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .86;
+  transition: opacity .35s ease, transform .7s cubic-bezier(.2, .7, .3, 1);
+}
+
+.band:hover .shot img, .band:hover .shot video {
+  opacity: 1;
+  transform: scale(1.015);
+}
+
+.band .say {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  max-width: 52ch;
+  padding: clamp(18px, 2.6vw, 32px) var(--pad) clamp(34px, 5vw, 66px);
+}
+
+.band .say[data-side="right"] { margin-left: auto; }
+
+.band h2 {
+  margin: 0;
+  font: 500 clamp(20px, 2.9vw, 34px)/1.05 var(--mono);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.band .lead {
+  margin: 0;
+  font: 400 clamp(13px, 1.35vw, 16px)/1.55 var(--sans);
+  color: var(--dim);
+}
+
+.band .go {
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--faint);
+  transition: color .16s ease;
+}
+
+.band:hover .go { color: var(--ink); }
+
+/* ---------- страница серии ---------- */
+
+.head {
+  padding: clamp(44px, 8vw, 104px) var(--pad) clamp(24px, 4vw, 48px);
+  max-width: 62ch;
+}
+
+.head h1 {
+  margin: 0 0 12px;
+  font: 500 clamp(26px, 4.4vw, 44px)/1.08 var(--mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.head .meta { display: block; margin-bottom: 18px; }
+
+.head .lead {
+  margin: 0;
+  font: 400 clamp(17px, 2.2vw, 27px)/1.42 var(--sans);
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  padding: 0 var(--pad) clamp(56px, 9vw, 130px);
+  max-width: var(--wide);
+  margin: 0 auto;
+}
+
+/* zoom-in — единственный намёк, что кадр открывается во весь экран.
+   Без него полноэкранный просмотр находит только тот, кто ткнёт наугад. */
+.work { position: relative; background: var(--panel); cursor: zoom-in; }
+.work .bot { cursor: auto; }
+
+.work img, .work video {
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+
+.work img.on, .work video.on { opacity: 1; }
+
+/* строка под кадром: номер слева, реакции справа */
+.bot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 8px;
+  font: 400 10px/1 var(--mono);
+  letter-spacing: 1px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.work[data-kind="video"] .no::after { content: " · видео"; }
+
+.acts {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+/* Цель для пальца — не меньше 44×44. Фон прозрачный, поэтому кнопка
+   остаётся визуально лёгкой, хотя занимает положенную площадь. */
+.acts button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  background: none;
+  border: 0;
+  padding: 0 10px;
+  cursor: pointer;
+  color: var(--act);
+  font: 400 11px/1 var(--mono);
+  font-variant-numeric: tabular-nums;
+  transition: color .16s ease;
+}
+
+.acts button:hover { color: var(--ink); }
+.acts button[aria-pressed="true"] { color: var(--ink); }
+.acts svg { width: 13px; height: 13px; fill: currentColor; flex: 0 0 auto; }
+.acts button[data-v="-1"] svg { transform: rotate(180deg); }
+/* нули не показываем: «078 0 0 0» — это шум, а не информация */
+.acts b:empty { display: none; }
+
+/* ---------- текст между работами ----------
+   Узкая колонка, отжатая к левому или правому краю ленты. Набрана
+   гротеском и крупнее подписей — это мысль автора, а не служебная строка. */
+
+.note {
+  display: flex;
+  padding: clamp(10px, 2.6vw, 40px) 0;
+}
+
+.note[data-side="right"] { justify-content: flex-end; }
+.note[data-side="center"] { justify-content: center; }
+
+.note p {
+  margin: 0;
+  max-width: 46ch;
+  font: 400 clamp(15px, 1.75vw, 22px)/1.5 var(--sans);
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.note[data-side="right"] p { text-align: right; }
+.note[data-side="center"] p { text-align: center; }
+
+/* Мысль автора — гротеском, промпт — моноширинным и с подписью.
+   Опечатка в подписанном промпте читается как документ, а не как ляп;
+   и сразу видно, где текст человека, а где машины. */
+.lead[data-prompt], .note p[data-prompt] {
+  font-family: var(--mono);
+  font-size: clamp(12px, 1.35vw, 15px);
+  line-height: 1.6;
+  color: var(--dim);
+  letter-spacing: .2px;
+}
+
+.src {
+  display: block;
+  margin-bottom: 7px;
+  font: 400 10px/1 var(--mono);
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.note[data-side="right"] .src { text-align: right; }
+.note[data-side="center"] .src { text-align: center; }
+
+/* ---------- переход между сериями ---------- */
+
+.ends {
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+  flex-wrap: wrap;
+  padding: clamp(28px, 4.5vw, 48px) var(--pad);
+  border-top: 1px solid var(--edge);
+  margin: 0 var(--pad);
+}
+
+.ends a {
+  color: var(--dim);
+  font-size: 11px;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  transition: color .16s ease;
+}
+
+.ends a:hover { color: var(--ink); }
+.ends .nx { margin-left: auto; }
+
+footer {
+  padding: clamp(36px, 5.5vw, 66px) var(--pad);
+  border-top: 1px solid var(--edge);
+  color: var(--faint);
+  font-size: 11px;
+  letter-spacing: .5px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+footer a { color: var(--dim); }
+footer a:hover { color: var(--ink); }
+
+/* ---------- просмотр во весь экран ---------- */
+
+.view {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  /* строго непрозрачный: при .97 сквозь просмотр проступала шапка */
+  background: var(--ground);
+  display: none;
+  flex-direction: column;
+}
+
+.view[data-open] { display: flex; }
+
+/* Кадр вписывается в свободную часть экрана. Ключевое здесь — min-height
+   и min-width по нулю: без них флекс-элемент не даёт себя сжать, и
+   высокие кадры вылезают за низ экрана, сколько им ни ставь max-height. */
+.stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(10px, 2.6vw, 40px);
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.slot img, .slot video {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.view .shut, .view .step, .view .talk {
+  position: absolute;
+  background: none;
+  border: 0;
+  color: var(--act);
+  font: 400 12px/1 var(--mono);
+  letter-spacing: 1px;
+  cursor: pointer;
+  padding: 14px;
+  min-width: 44px;
+  min-height: 44px;
+  transition: color .16s ease;
+}
+
+.view .shut:hover, .view .step:hover, .view .talk:hover { color: var(--ink); }
+.view .shut { top: 6px; right: 8px; }
+/* панель скрывается кнопкой [скрыть] внутри неё — эта возвращает её обратно */
+.view .talk { top: 6px; left: 8px; }
+.view[data-side] .talk { display: none; }
+.view .step[data-d="-1"] { left: 4px; top: 50%; transform: translateY(-50%); }
+.view .step[data-d="1"] { right: 4px; top: 50%; transform: translateY(-50%); }
+
+.view .cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  text-align: center;
+  color: var(--faint);
+  font-size: 10px;
+  letter-spacing: 1px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- панель реакций и комментариев ----------
+   На узком экране выезжает снизу, на широком — сбоку. Кадр при этом
+   остаётся вписанным: он живёт в .stage, который просто отдаёт часть места. */
+
+.side {
+  flex: 0 0 auto;
+  display: none;
+  flex-direction: column;
+  background: var(--panel);
+  border-top: 1px solid var(--edge);
+  max-height: 52vh;
+  min-height: 0;
+}
+
+.view[data-side] .side { display: flex; }
+
+/* Сжатый режим: видны только пальцы. На телефоне развёрнутая панель
+   занимала 37% экрана, а сама работа — 24%; пустая форма комментария
+   выходила крупнее картины. */
+.view[data-side="compact"] .side { max-height: none; }
+.view[data-side="compact"] .clist,
+.view[data-side="compact"] .cform { display: none; }
+
+.view .more, .view .close-side { display: none; }
+.view[data-side="compact"] .more { display: inline-flex; }
+.view[data-side="full"] .close-side { display: inline-flex; }
+
+@media (min-width: 760px) {
+  .view[data-open] { flex-direction: row; }
+  .side {
+    /* на узких окнах панель ужимается, чтобы кадру осталось место */
+    width: clamp(300px, 34vw, 400px);
+    max-height: none;
+    height: 100%;
+    border-top: 0;
+    border-left: 1px solid var(--edge);
+  }
+}
+
+.vote {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--edge);
+  flex: 0 0 auto;
+}
+
+.vote button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: 1px solid var(--edge);
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--dim);
+  font: 400 12px/1 var(--mono);
+  font-variant-numeric: tabular-nums;
+  transition: color .16s ease, border-color .16s ease;
+}
+
+.vote button:hover { color: var(--ink); border-color: var(--faint); }
+.vote button[aria-pressed="true"] { color: var(--ink); border-color: var(--ink); }
+.vote svg { width: 14px; height: 14px; fill: currentColor; }
+.vote button[data-v="-1"] svg { transform: rotate(180deg); }
+.vote .give { margin-left: auto; }
+.vote .give[disabled] { opacity: .5; cursor: default; }
+.vote .num { color: var(--faint); font-size: 11px; }
+.vote b:empty { display: none; }
+
+.clist {
+  list-style: none;
+  margin: 0;
+  padding: 14px 16px;
+  overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.clist:empty::after {
+  content: "Quiet so far. Say the first thing.";
+  color: var(--faint);
+  font-size: 11px;
+  letter-spacing: .5px;
+}
+
+.clist li { display: flex; flex-direction: column; gap: 5px; }
+
+.chead {
+  display: flex;
+  gap: 9px;
+  align-items: baseline;
+  font: 400 10px/1 var(--mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.chead b { color: var(--dim); font-weight: 400; }
+
+.cbody {
+  margin: 0;
+  font: 400 13px/1.5 var(--sans);
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.cpic {
+  margin-top: 3px;
+  max-width: 190px;
+  border: 1px solid var(--edge);
+  cursor: zoom-in;
+}
+
+.cwait {
+  font: 400 10px/1 var(--mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.cform {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--edge);
+}
+
+.cform input[type="text"], .cform textarea {
+  background: var(--ground);
+  border: 1px solid var(--edge);
+  color: var(--ink);
+  font: 400 13px/1.45 var(--sans);
+  padding: 9px 10px;
+  width: 100%;
+  resize: vertical;
+}
+
+.cform input::placeholder, .cform textarea::placeholder { color: var(--faint); }
+.cform input:focus, .cform textarea:focus { outline: 0; border-color: var(--faint); }
+.cform textarea { min-height: 62px; }
+
+.crow { display: flex; gap: 10px; align-items: center; }
+
+.cform label.pick, .cform button {
+  background: none;
+  border: 1px solid var(--edge);
+  color: var(--dim);
+  font: 400 11px/1 var(--mono);
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  padding: 9px 12px;
+  cursor: pointer;
+  transition: color .16s ease, border-color .16s ease;
+}
+
+.cform label.pick:hover, .cform button:hover { color: var(--ink); border-color: var(--faint); }
+.cform button[type="submit"] { margin-left: auto; }
+.cform button[disabled] { opacity: .45; cursor: default; }
+
+.cnote { font: 400 10px/1.4 var(--mono); letter-spacing: .5px; color: var(--faint); }
+.cnote[data-bad] { color: #e2705c; }
+
+.cprev { display: flex; gap: 8px; align-items: center; }
+.cprev img { max-height: 46px; border: 1px solid var(--edge); }
+.cprev button { padding: 5px 8px; }
+
+@media (max-width: 700px) {
+  .band .say[data-side="right"] { margin-left: 0; }
+  .note[data-side="right"], .note[data-side="center"] { justify-content: flex-start; }
+  .note[data-side="right"] p, .note[data-side="center"] p { text-align: left; }
+  .view .step { padding: 10px 6px; }
+
+  /* Счётчик в шапке переносил её на две строки и съедал 88 px высоты
+     телефонного экрана ради строки, которую всё равно никто не читает.
+     Он остаётся на странице серии, где показывает число работ. */
+  .bar { gap: 14px; }
+  .bar .meta.wide { display: none; }
+  .vote { flex-wrap: wrap; padding: 12px 14px; }
+  .vote .give { margin-left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+  .work img, .work video { opacity: 1; }
+}
+
+/* ---------- витрина ----------
+   Одна работа на экран, переход стрелками, прокрутки нет — как на
+   ecstasyboi.com. Модель работает только при малом числе работ:
+   16 можно перелистать, 334 нельзя. Весь архив остаётся за ней. */
+
+body.deckpage {
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+body.deckpage .bar { position: static; flex: 0 0 auto; }
+body.deckpage .totop { display: none; }
+/* на странице без прокрутки подвал забирал низ экрана у работы */
+body.deckpage footer { display: none; }
+
+.deck {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.frames { position: absolute; inset: 0; }
+
+.fr {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: clamp(14px, 3vh, 40px) clamp(50px, 7vw, 110px) clamp(112px, 19vh, 172px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .9s ease;
+}
+
+.fr.on { opacity: 1; }
+
+.fr img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.arw {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 16px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--act);
+  font: 400 15px/1 var(--mono);
+  transition: color .16s ease;
+}
+
+.arw:hover { color: var(--ink); }
+.arw[data-d="-1"] { left: 2px; }
+.arw[data-d="1"] { right: 2px; }
+
+.cap {
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+  bottom: clamp(18px, 4vh, 44px);
+  z-index: 2;
+  max-width: 62ch;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cap h2 {
+  margin: 0;
+  font: 500 clamp(15px, 1.9vw, 23px)/1.2 var(--mono);
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.cap .mat {
+  margin: 0;
+  font: 400 clamp(11px, 1.15vw, 13px)/1.5 var(--sans);
+  color: var(--dim);
+}
+
+.cap .mat:empty { display: none; }
+
+.cap .src {
+  font: 400 11px/1 var(--mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--faint);
+  transition: color .16s ease;
+}
+
+.cap .src:hover { color: var(--ink); }
+
+.tick {
+  position: absolute;
+  right: var(--pad);
+  bottom: clamp(18px, 4vh, 44px);
+  z-index: 2;
+  font: 400 11px/1 var(--mono);
+  letter-spacing: 1px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.bar .pick {
+  color: var(--act);
+  font: 400 11px/1 var(--mono);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  transition: color .16s ease;
+}
+
+.bar .pick:hover { color: var(--ink); }
+
+@media (max-width: 700px) {
+  .fr { padding: clamp(10px, 2vh, 24px) 34px clamp(120px, 22vh, 190px); }
+  .tick { display: none; }
+  .cap { right: var(--pad); }
+}
+
+/* ---------- манифест ----------
+   Первое, что человек читает после картинки. У Торпа это заглавный текст
+   кеглем 61 px; здесь скромнее, но это высказывание, а не подпись. */
+
+.manifest {
+  padding: clamp(56px, 11vw, 130px) var(--pad) clamp(52px, 10vw, 120px);
+  border-bottom: 1px solid var(--edge);
+}
+
+.manifest p {
+  margin: 0;
+  max-width: 22em;
+  font: 400 clamp(19px, 2.9vw, 36px)/1.34 var(--sans);
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+/* ---------- админка ----------
+   Открывается по Ctrl+Shift+E. Правит те же json, из которых собирается
+   сайт; сервер после сохранения пересобирает страницы. */
+
+.admin {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  /* строго непрозрачный: при .97 сквозь панель просвечивала страница */
+  background: var(--ground);
+  display: flex;
+  flex-direction: column;
+  font: 400 13px/1.5 var(--mono);
+}
+
+.ahead, .afoot {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px var(--pad);
+  border-bottom: 1px solid var(--edge);
+}
+
+.afoot { border-bottom: 0; border-top: 1px solid var(--edge); }
+
+.ahead b {
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.actx { color: var(--dim); letter-spacing: .6px; }
+.ahead .abtn:nth-last-child(2) { margin-left: auto; }
+
+.abody {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px var(--pad) 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 900px;
+  width: 100%;
+}
+
+.abtn {
+  background: none;
+  border: 1px solid var(--edge);
+  color: var(--act);
+  font: 400 11px/1 var(--mono);
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  padding: 9px 12px;
+  min-height: 36px;
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: color .16s ease, border-color .16s ease;
+}
+
+.abtn:hover { color: var(--ink); border-color: var(--faint); }
+.abtn[disabled] { opacity: .45; cursor: default; }
+.asave { margin-left: auto; color: var(--ink); border-color: var(--faint); }
+
+.amsg { color: var(--dim); font-size: 11px; letter-spacing: .5px; }
+.alab {
+  color: var(--dim);
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+
+.afield { display: flex; flex-direction: column; gap: 6px; flex: 1 1 auto; }
+.afield span { color: var(--dim); font-size: 11px; letter-spacing: .6px; }
+
+.admin textarea, .admin input[type="text"] {
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  color: var(--ink);
+  font: 400 13px/1.5 var(--sans);
+  padding: 9px 10px;
+  width: 100%;
+  resize: vertical;
+}
+
+.admin textarea:focus, .admin input:focus { outline: 0; border-color: var(--faint); }
+.admin input::placeholder, .admin textarea::placeholder { color: var(--faint); }
+
+.alist { display: flex; flex-direction: column; gap: 10px; }
+.arow { display: flex; gap: 10px; align-items: flex-end; }
+
+.aworks, .adeck { display: flex; flex-direction: column; gap: 6px; }
+
+.awork, .adrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px;
+  border: 1px solid var(--edge);
+}
+
+.awork img, .adrow img {
+  width: 68px;
+  height: 44px;
+  object-fit: cover;
+  flex: 0 0 auto;
+  background: var(--panel);
+}
+
+.awork span { color: var(--dim); font-variant-numeric: tabular-nums; }
+.awork .abtn { margin-left: 0; }
+.awork .abtn:first-of-type { margin-left: auto; }
+
+.adcol { display: flex; flex-direction: column; gap: 5px; flex: 1 1 auto; min-width: 0; }
+.adnum {
+  color: var(--faint);
+  font-size: 10px;
+  letter-spacing: 1px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- цена ----------
+   Мелкая строка рядом с номером кадра — этикетка в галерее, а не ценник.
+   Появляется только у той работы, которой цену задали. */
+
+.cost {
+  color: var(--act);
+  font: 400 10px/1 var(--mono);
+  letter-spacing: 1px;
+  font-variant-numeric: tabular-nums;
+}
+
+.cost[data-st="sold"] { color: var(--faint); text-decoration: line-through; }
+.cost[data-st="reserved"] { color: var(--dim); }
+.cost[data-st="request"] { color: var(--dim); text-transform: uppercase; }
+
+/* ---------- показы ----------
+   Список, а не афиша: даты слева, всё остальное следом, прошедшие тусклее. */
+
+.shows {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--pad) clamp(60px, 10vw, 140px);
+  max-width: 1100px;
+}
+
+.show {
+  display: grid;
+  grid-template-columns: 130px 200px 1fr;
+  gap: 6px 20px;
+  align-items: baseline;
+  padding: 18px 0;
+  border-top: 1px solid var(--edge);
+}
+
+.show[data-past] { opacity: .42; }
+
+.when {
+  font: 400 13px/1.4 var(--mono);
+  letter-spacing: .8px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.where {
+  font: 500 13px/1.4 var(--mono);
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.venue { font: 400 13px/1.5 var(--sans); color: var(--dim); }
+
+.snote {
+  grid-column: 3;
+  font: 400 12px/1.5 var(--sans);
+  color: var(--faint);
+}
+
+.snote:empty, .venue:empty { display: none; }
+
+@media (max-width: 700px) {
+  .show { grid-template-columns: 1fr; gap: 4px; }
+  .snote { grid-column: 1; }
+}
+
+/* поля цены и показов в админке */
+.aprice { max-width: 120px; flex: 0 0 auto; }
+.admin select {
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  color: var(--ink);
+  font: 400 12px/1 var(--mono);
+  padding: 8px 6px;
+  flex: 0 0 auto;
+}
+.admin select:focus { outline: 0; border-color: var(--faint); }
+.ashow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px;
+  border: 1px solid var(--edge);
+  flex-wrap: wrap;
+}
+.ashow input { flex: 1 1 130px; min-width: 0; }
+.ashow .adate { flex: 0 0 130px; font-family: var(--mono); }
+
+/* «поделиться» на витрине — в тон ссылке на серию, не громче */
+.cap .dgive {
+  align-self: flex-start;
+  background: none;
+  border: 0;
+  padding: 6px 0 0;
+  cursor: pointer;
+  color: var(--act);
+  font: 400 11px/1 var(--mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color .16s ease;
+}
+
+.cap .dgive:hover { color: var(--ink); }
+.cap .dgive[disabled] { opacity: .5; cursor: default; }
+
+/* ---------- превью карточки для соцсетей ----------
+   Прямой отправки в инстаграм из браузера не существует, поэтому карточку
+   показываем и даём сохранить: дальше человек выкладывает из приложения. */
+
+.card {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: var(--ground);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: clamp(14px, 3vw, 34px);
+  overflow-y: auto;
+}
+
+.card img {
+  max-width: min(100%, 420px);
+  max-height: 62vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border: 1px solid var(--edge);
+}
+
+.crow2 {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cbtn {
+  background: none;
+  border: 1px solid var(--edge);
+  color: var(--act);
+  font: 400 11px/1 var(--mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 11px 14px;
+  min-height: 44px;
+  cursor: pointer;
+  transition: color .16s ease, border-color .16s ease;
+}
+
+.cbtn:hover { color: var(--ink); border-color: var(--faint); }
+
+.chint {
+  margin: 0;
+  max-width: 46ch;
+  text-align: center;
+  font: 400 12px/1.55 var(--sans);
+  color: var(--dim);
+}
+
+/* выбор формата карточки */
+.cfmt { margin-bottom: -4px; }
+.cfmt .cbtn { min-height: 38px; padding: 9px 12px; color: var(--faint); }
+.cfmt .cbtn[data-on] { color: var(--ink); border-color: var(--faint); }
+
+/* номер кадра — ссылка на отдельную страницу работы */
+a.no { transition: color .16s ease; }
+a.no:hover { color: var(--ink); }
+
+/* ---------- подписка ----------
+   Единственный способ владеть аудиторией, а не арендовать её у площадки. */
+
+.sub {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-left: auto;
+  max-width: 320px;
+  width: 100%;
+}
+
+.sublab {
+  color: var(--dim);
+  font-size: 11px;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+}
+
+.subrow { display: flex; gap: 8px; }
+
+.sub input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  color: var(--ink);
+  font: 400 12px/1 var(--mono);
+  padding: 11px 10px;
+  min-height: 42px;
+}
+
+.sub input:focus { outline: 0; border-color: var(--faint); }
+.sub input::placeholder { color: var(--faint); }
+
+.sub button {
+  background: none;
+  border: 1px solid var(--edge);
+  color: var(--act);
+  font: 400 11px/1 var(--mono);
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  padding: 0 14px;
+  min-height: 42px;
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: color .16s ease, border-color .16s ease;
+}
+
+.sub button:hover { color: var(--ink); border-color: var(--faint); }
+.sub button[disabled] { opacity: .5; cursor: default; }
+.sub[data-done] .subrow { display: none; }
+.submsg { color: var(--dim); font-size: 11px; letter-spacing: .4px; }
+.submsg:empty { display: none; }
+
+footer { align-items: flex-start; }
