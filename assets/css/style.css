@@ -994,12 +994,25 @@ body.deckpage footer { display: none; }
   border: 1px solid var(--edge);
 }
 
+/* Миниатюры в админке были 68×44 — на тёмных работах не разобрать, какая
+   именно перед тобой, а двигать и удалять приходится именно их. Крупнее,
+   целиком (contain, а не обрезка), и увеличиваются по наведению. */
 .awork img, .adrow img {
-  width: 68px;
-  height: 44px;
-  object-fit: cover;
+  position: relative;
+  width: 190px;
+  height: 120px;
+  object-fit: contain;
   flex: 0 0 auto;
-  background: var(--panel);
+  background: var(--ground);
+  border: 1px solid var(--edge);
+  transform-origin: left center;
+  transition: transform .18s ease;
+  cursor: zoom-in;
+}
+
+.awork img:hover, .adrow img:hover {
+  transform: scale(2.6);
+  z-index: 5;
 }
 
 .awork span { color: var(--dim); font-variant-numeric: tabular-nums; }
