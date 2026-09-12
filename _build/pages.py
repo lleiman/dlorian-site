@@ -25,6 +25,9 @@ deck = json.loads((SEL / "deck.json").read_text()) if (SEL / "deck.json").exists
 prices = json.loads((SEL / "prices.json").read_text()) if (SEL / "prices.json").exists() else {}
 # Показы. Пока пусто, ссылка на страницу в шапке не появляется.
 shows = json.loads((SEL / "shows.json").read_text()) if (SEL / "shows.json").exists() else []
+# Связи с другими проектами. На публику идут только помеченные site —
+# на портфолио не место ссылкам на регламенты студии и прочее личное.
+links = json.loads((SEL / "links.json").read_text()) if (SEL / "links.json").exists() else []
 
 # ↓ заполнить, когда будут контакты; пустые строки просто не отрисуются
 SITE_NAME = "DLORIAN"
@@ -40,7 +43,7 @@ SITE_URL = os.environ.get("SITE_URL", "https://dlorian.art")
 
 # версия в ссылках на css/js: Caddy отдаёт статику с длинным кешем,
 # без неё правки стилей не доедут до тех, кто уже открывал сайт
-VER = os.environ.get("ASSET_VER", "32")
+VER = os.environ.get("ASSET_VER", "33")
 
 SLUG = {
     "VELOCITY": "velocity", "BODY": "body", "KISSING": "kissing",
@@ -196,7 +199,11 @@ def foot(depth):
            'autocomplete="email" maxlength="120">'
            '<button type="submit">subscribe</button>'
            '</span><span class="submsg"></span></form>')
-    return (f'<footer><span>{E(SITE_NAME)} — {YEAR}</span>{links_html()}'
+    pub = [x for x in links if x.get("where") in ("site", "both") and x.get("url")]
+    projects = ("".join(f'<a href="{E(x["url"])}" rel="noopener" target="_blank">'
+                        f'{E(x["name"])}</a>' for x in pub))
+    projects = f'<span class="projects">{projects}</span>' if projects else ""
+    return (f'<footer><span>{E(SITE_NAME)} — {YEAR}</span>{links_html()}{projects}'
             f'{sub}</footer>'
             f'<script src="{up}assets/js/main.js?v={VER}"></script></body></html>')
 

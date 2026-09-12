@@ -59,7 +59,8 @@ BUILT_DIR = DATA_DIR / "site"
 RENDER = Path(os.environ.get("RENDER_SCRIPT", "/app/pages.py"))
 
 # что разрешено править: тексты, витрина, состав серий, цены и показы
-EDITABLE = {"notes.json", "deck.json", "series.json", "prices.json", "shows.json"}
+EDITABLE = {"notes.json", "deck.json", "series.json", "prices.json",
+            "shows.json", "links.json"}
 
 
 def ensure_content():

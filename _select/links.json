@@ -1,0 +1,37 @@
+[
+ {
+  "name": "ADEPT · Канва",
+  "url": "https://adept-canvas-production-8754.up.railway.app",
+  "where": "admin"
+ },
+ {
+  "name": "ADEPT · Регламенты",
+  "url": "",
+  "where": "admin"
+ },
+ {
+  "name": "THE RESONANCE",
+  "url": "https://the-resonance-production.up.railway.app",
+  "where": "admin"
+ },
+ {
+  "name": "Синопсис",
+  "url": "https://synopsis-site-production-804c.up.railway.app",
+  "where": "admin"
+ },
+ {
+  "name": "Карта города",
+  "url": "https://lleiman.github.io/city-map-site",
+  "where": "admin"
+ },
+ {
+  "name": "Глава I",
+  "url": "https://lleiman.github.io/chapter-site",
+  "where": "admin"
+ },
+ {
+  "name": "$BOAR",
+  "url": "https://lleiman.github.io/nikitaboar",
+  "where": "admin"
+ }
+]

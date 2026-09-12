@@ -1253,3 +1253,8 @@ a.no:hover { color: var(--ink); }
 .submsg:empty { display: none; }
 
 footer { align-items: flex-start; }
+
+/* связи с другими проектами в подвале */
+.projects { display: flex; gap: 14px; flex-wrap: wrap; }
+.projects a { color: var(--dim); font-size: 11px; letter-spacing: .6px; text-transform: uppercase; }
+.projects a:hover { color: var(--ink); }

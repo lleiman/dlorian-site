@@ -448,6 +448,74 @@ td.num{font-variant-numeric:tabular-nums;color:var(--dim)}
     }).catch(fail);
   });
 
+  addSection("links", "Проекты", function () {
+    head("Проекты", "Связи с остальными твоими проектами. Сверху — пульт для перехода, ниже — правка. На сайт попадают только помеченные «на сайте».");
+    load("links.json").then(function (data) {
+      var links = (data || []).slice();
+
+      /* пульт: всё, куда можно перейти прямо отсюда */
+      var dash = el("div", "row");
+      dash.style.marginBottom = "18px";
+      links.forEach(function (x) {
+        if (!x.url) return;
+        var a = document.createElement("a");
+        a.className = "btn";
+        a.href = x.url; a.target = "_blank"; a.rel = "noopener";
+        a.textContent = x.name + " ↗";
+        a.style.textDecoration = "none";
+        dash.appendChild(a);
+      });
+      if (!dash.children.length) dash.appendChild(el("span", "msg", "адресов пока нет"));
+      main.appendChild(dash);
+
+      main.appendChild(el("span", "lab", "Список"));
+      var box = el("div", "col");
+      main.appendChild(box);
+      function draw() {
+        box.innerHTML = "";
+        links.forEach(function (x, i) {
+          var row = el("div", "row");
+          var nm = document.createElement("input");
+          nm.type = "text"; nm.placeholder = "название"; nm.value = x.name || "";
+          nm.style.flex = "1 1 160px";
+          nm.oninput = function () { x.name = nm.value; };
+          var url = document.createElement("input");
+          url.type = "text"; url.placeholder = "https://…"; url.value = x.url || "";
+          url.style.flex = "2 1 260px";
+          url.oninput = function () { x.url = url.value; };
+          var where = el("select");
+          [["admin", "только в админке"], ["site", "на сайте"], ["both", "и там, и там"]]
+            .forEach(function (o) {
+              var op = document.createElement("option");
+              op.value = o[0]; op.textContent = o[1];
+              where.appendChild(op);
+            });
+          where.value = x.where || "admin";
+          where.style.width = "auto";
+          where.onchange = function () { x.where = where.value; };
+          var up = el("button", "btn", "↑");
+          up.onclick = function () {
+            if (i > 0) { links.splice(i - 1, 0, links.splice(i, 1)[0]); draw(); }
+          };
+          var rm = el("button", "btn bad", "✕");
+          rm.onclick = function () { links.splice(i, 1); draw(); };
+          row.appendChild(nm); row.appendChild(url); row.appendChild(where);
+          row.appendChild(up); row.appendChild(rm);
+          box.appendChild(row);
+        });
+      }
+      draw();
+      var add = el("button", "btn", "+ проект");
+      add.onclick = function () { links.push({ name: "", url: "", where: "admin" }); draw(); };
+      main.appendChild(add);
+      footer(function (m) {
+        return save("links.json", links.filter(function (x) {
+          return (x.name || "").trim() || (x.url || "").trim();
+        }), m);
+      });
+    }).catch(fail);
+  });
+
   addSection("shows", "Показы", function () {
     head("Показы", "Пока нет ни одной даты — страница и ссылка на неё не появляются.");
     load("shows.json").then(function (data) {

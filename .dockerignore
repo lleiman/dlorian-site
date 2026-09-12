@@ -16,3 +16,4 @@ _select/*
 !_select/deck.json
 !_select/prices.json
 !_select/shows.json
+!_select/links.json

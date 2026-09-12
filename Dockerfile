@@ -22,7 +22,7 @@ COPY _build/pages.py .
 # исходные данные; при первом запуске копируются на том и дальше правятся там
 COPY _select/manifest.json _select/series.json _select/covers.json \
      _select/best.json _select/notes.json _select/deck.json \
-     _select/prices.json _select/shows.json /app/content/
+     _select/prices.json _select/shows.json _select/links.json /app/content/
 
 # в образ едет только сам сайт: контактный лист и CLAUDE.md наружу не отдаём
 # shows.html есть не всегда: страница создаётся, только когда заведены показы.
