@@ -23,6 +23,6 @@ app.post('/api/research', (req,res)=>{
   res.json({ok:true,cost,remaining:credits-cost,result:{title:`Research brief: ${query || 'your field'}`,summary:'Demo mode is active. Connect OPENAI_API_KEY to replace this deterministic preview with live personalised research.',actions:['Review 10 current opportunities','Score by fit and effort','Add top 3 to your weekly plan']}});
 });
 
-app.get('*', (_req,res)=>res.sendFile(path.join(__dirname,'public','index.html')));
+app.use((_req,res)=>res.sendFile(path.join(__dirname,'public','index.html')));
 const port = process.env.PORT || 3000;
 app.listen(port,()=>console.log(`2S running on ${port}`));
