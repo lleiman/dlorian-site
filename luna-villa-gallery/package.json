@@ -1,0 +1,1 @@
+{"name":"luna-villa-gallery","version":"1.1.0","private":true,"description":"Art as Part of Living — Luna Selezman in Ubud, Bali","scripts":{"start":"node server.js"},"engines":{"node":">=20"}}
