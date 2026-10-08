@@ -1,0 +1,162 @@
+[
+  {
+    "slug": "two-angels",
+    "name": "Two Angels",
+    "year": "2024",
+    "size": "70 × 70 cm",
+    "medium": "Oil on canvas",
+    "note": "A quiet embrace disguised as a single winged figure. Two beings complete one another, their shared wings making flight possible.",
+    "group": "In the villa",
+    "image": "assets/two-angels.webp"
+  },
+  {
+    "slug": "protection",
+    "name": "Protection",
+    "year": "2024",
+    "size": "120 × 80 cm",
+    "medium": "Oil on canvas",
+    "note": "In warm ochre and gold, two figures merge. A winged presence holds another close, giving shape to the felt experience of protection.",
+    "group": "In the villa",
+    "image": "assets/protection.webp"
+  },
+  {
+    "slug": "thought",
+    "name": "Thought",
+    "year": "2026",
+    "size": "80 × 120 cm",
+    "medium": "Oil on canvas",
+    "note": "A woman appears beneath the coils of a dragon, her thoughts made almost tangible against a surface that resembles an ancient wall.",
+    "group": "In the villa",
+    "image": "assets/thought.webp"
+  },
+  {
+    "slug": "blossom",
+    "name": "Blossom",
+    "year": "2025",
+    "size": "110 × 80 cm",
+    "medium": "Oil on canvas",
+    "note": "A human profile dissolves into branches and leaves. Painted without preliminary design, the work holds the moment when a form emerges from the act of painting.",
+    "group": "In the villa",
+    "image": "assets/blossom.webp"
+  },
+  {
+    "slug": "winter-blooming",
+    "name": "Winter Blooming",
+    "year": "2025",
+    "size": "90 × 120 cm",
+    "medium": "Oil on canvas",
+    "note": "A face emerges through lilac and blue foliage, caught between winter and flowering. The image grows out of an intuitive painting process.",
+    "group": "In the villa",
+    "image": "assets/winter-blooming.webp"
+  },
+  {
+    "slug": "id-ego-superego",
+    "name": "The Id, Ego, and Superego",
+    "year": "2025",
+    "size": "70 × 70 cm",
+    "medium": "Acrylic on canvas",
+    "note": "Three faces overlap within a single orange field, bringing division and integration into the same gesture.",
+    "group": "In the villa",
+    "image": "assets/id-ego-superego.webp"
+  },
+  {
+    "slug": "the-touch",
+    "name": "The Touch",
+    "year": "2025",
+    "size": "70 × 70 cm",
+    "medium": "Oil on canvas",
+    "note": "Two faces draw close. In a restricted palette of fire and ochre, the painting leaves only the encounter: closeness, contact, union.",
+    "group": "In the villa",
+    "image": "assets/the-touch.webp"
+  },
+  {
+    "slug": "intimacy",
+    "name": "Intimacy",
+    "year": "2024",
+    "size": "70 × 70 cm",
+    "medium": "Oil on canvas",
+    "note": "Two figures meet at close range. A raised hand becomes at once a gesture of touch and a possible boundary.",
+    "group": "In the villa",
+    "image": "assets/intimacy.webp"
+  },
+  {
+    "slug": "ardhanarishvara",
+    "name": "Ardhanarishvara",
+    "year": "2025",
+    "size": "120 × 80 cm",
+    "medium": "Oil on canvas",
+    "note": "Drawing on the joined form of Shiva and Shakti, this winged figure changes character between shadow and light.",
+    "group": "Selected works",
+    "image": "assets/ardhanarishvara.webp"
+  },
+  {
+    "slug": "dancing-angel",
+    "name": "Dancing Angel",
+    "year": "2025",
+    "size": "30 × 30 cm",
+    "medium": "Oil on canvas",
+    "note": "An embrace becomes a movement forward, a dance through uncertainty.",
+    "group": "Selected works",
+    "image": "assets/dancing-angel.webp"
+  },
+  {
+    "slug": "dancing-valkyrie",
+    "name": "Dancing Valkyrie",
+    "year": "2025",
+    "size": "40 × 60 cm",
+    "medium": "Oil on canvas",
+    "note": "A winged figure strides through darkness, connecting mythological traditions through a swift painterly gesture.",
+    "group": "Selected works",
+    "image": "assets/dancing-valkyrie.webp"
+  },
+  {
+    "slug": "buddha",
+    "name": "Buddha",
+    "year": "2025",
+    "size": "200 × 200 cm",
+    "medium": "Acrylic on canvas",
+    "note": "A meditating figure merges with vertical streams of colour, suggesting stillness within transformation.",
+    "group": "Selected works",
+    "image": "assets/buddha.webp"
+  },
+  {
+    "slug": "she",
+    "name": "She",
+    "year": "2025",
+    "size": "80 × 60 cm",
+    "medium": "Oil on canvas",
+    "note": "An icon-like gaze interrupted by disquiet; stillness and rupture are held in the same image.",
+    "group": "Selected works",
+    "image": "assets/she.webp"
+  },
+  {
+    "slug": "meditation-fire",
+    "name": "Meditation (Fire)",
+    "year": "2025",
+    "size": "200 × 200 cm",
+    "medium": "Acrylic on canvas",
+    "note": "Part of a monumental triptych in which a seated figure dissolves into the element of fire.",
+    "group": "Selected works",
+    "image": "assets/meditation-fire.webp"
+  },
+  {
+    "slug": "meditation-flower",
+    "name": "Meditation (Flower)",
+    "year": "2025",
+    "size": "200 × 200 cm",
+    "medium": "Acrylic on canvas",
+    "note": "The body becomes entangled with growth and foliage in the second panel of the Meditation triptych.",
+    "group": "Selected works",
+    "image": "assets/meditation-flower.webp"
+  },
+  {
+    "slug": "meditation-water",
+    "name": "Meditation (Water)",
+    "year": "2025",
+    "size": "200 × 200 cm",
+    "medium": "Acrylic on canvas",
+    "note": "The final panel submerges the meditating body in a field of cerulean and ice blue.",
+    "group": "Selected works",
+    "image": "assets/meditation-water.webp"
+  }
+]
