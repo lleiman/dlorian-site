@@ -656,7 +656,7 @@ def home():
 # уехали бы и исходники сервера, и _select с путями к оригиналам.
 # w/ — страница каждой работы: её можно дать ссылкой и она попадает в поиск
 OPEN_DIRS = ("assets/", "s/", "w/")
-OPEN_FILES = {"index.html", "deck.html", "shows.html", "admin.html",
+OPEN_FILES = {"index.html", "deck.html", "shows.html", "admin.html", "seneca.html",
               "favicon.ico", "robots.txt", "sitemap.xml"}
 
 

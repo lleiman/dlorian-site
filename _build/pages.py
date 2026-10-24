@@ -184,6 +184,7 @@ def bar(depth, meta, current=None):
             f'<button class="menu" type="button" aria-expanded="false" '
             f'aria-controls="menulist">series</button>'
             f'<a class="pick" href="{up}deck.html">selected</a>'
+             f'<a class="pick" href="{up}seneca.html">projects</a>'
             + (f'<a class="pick" href="{up}shows.html">shows</a>' if shows else '')
             + f'<span class="{cls}">{meta}</span><nav>{links_html()}</nav></div>'
             + menu_html(depth, current))
@@ -256,6 +257,23 @@ def hero_html():
             '</div></div>')
 
 
+# ---------- separate editorial project (not counted in the 11 series) ----------
+seneca_feature = (
+    '<section class="band">'
+    '<a class="shot" href="seneca.html" aria-label="The Death of Seneca project">'
+    '<img loading="lazy" decoding="async" src="assets/seneca/frame-01.webp"'
+    ' alt="The Death of Seneca — a dark Roman chamber with seated figures"'
+    ' width="1200" height="673"></a>'
+    '<div class="say" data-side="left">'
+    '<span class="meta">PROJECT 01 / VISUAL NARRATIVE / 2026</span>'
+    '<h2><a href="seneca.html">THE DEATH OF SENECA</a></h2>'
+    '<span class="meta">7 frames · work in progress</span>'
+    '<p class="lead">The last hours of Seneca, held in one invented chamber. '
+    'Seven changes of distance. One approved image.</p>'
+    '<a class="go" href="seneca.html">view project →</a>'
+    '</div></section>'
+)
+
 idx = (head(f"{SITE_NAME} — {works_word(total)} in {len(names)} series",
             clip(notes.get("_manifest") or f"{works_word(total)} in {len(names)} series."),
             0, "index", "index.html")
@@ -263,7 +281,7 @@ idx = (head(f"{SITE_NAME} — {works_word(total)} in {len(names)} series",
        + hero_html()
        + (f'<section class="manifest"><p>{E(notes["_manifest"])}</p></section>'
           if notes.get("_manifest") else "")
-       + f'<main class="bands">{"".join(bands)}</main>'
+       + f'<main class="bands">{seneca_feature}{"".join(bands)}</main>'
        + f'<script id="heroData" type="application/json">{json.dumps(hero_data)}</script>'
        + foot(0))
 (SITE / "index.html").write_text(idx)
@@ -433,7 +451,7 @@ else:
     f"Sitemap: {SITE_URL}/sitemap.xml\n"
 )
 
-urls = ["", "deck.html"] + [f"s/{SLUG[nm]}.html" for nm in names]
+urls = ["", "deck.html", "seneca.html"] + [f"s/{SLUG[nm]}.html" for nm in names]
 if shows:
     urls.append("shows.html")
 urls += [f"w/{n:03d}.html" for ns in series.values() for n in ns]
