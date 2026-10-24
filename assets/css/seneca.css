@@ -20,7 +20,7 @@
 .seneca-subhead{padding-top:14px;border-top:1px solid var(--border);color:#bdb0aa;letter-spacing:.02em}
 .seneca-leading-art{margin:0 auto;max-width:1800px}
 .seneca-leading-art>a{display:block;background:#100a08}
-.seneca-leading-art img{width:100%;height:auto;aspect-ratio:1456/816;object-fit:contain}
+.seneca-leading-art img{width:100%;height:auto;aspect-ratio:2048/1147;object-fit:contain}
 .seneca-leading-art figcaption,.seneca-gallery figcaption{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:15px clamp(18px,3vw,48px);font:400 10px/1.5 "IBM Plex Mono",monospace;letter-spacing:.1em;color:#bda8a0}
 .seneca-gallery{margin:0 auto;max-width:1800px}
 .seneca-gallery figure{margin:clamp(80px,10vw,180px) 0 0}
@@ -110,3 +110,11 @@
  .seneca-source-links a{font-size:10px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}
+
+/* Published eight-image cycle */
+.seneca-frame>a{display:block;background:#100a08}
+.seneca-frame img{aspect-ratio:auto;object-fit:contain}
+.seneca-frame:target{scroll-margin-top:65px}
+.seneca-gallery{padding-bottom:clamp(55px,9vw,130px)}
+.seneca-gallery figure:last-child{margin-bottom:0}
+@media(min-width:900px){.seneca-gallery figure:nth-child(2n){max-width:1500px;margin-left:auto;margin-right:auto}}

@@ -1,49 +1,83 @@
 {
   "project": "The Death of Seneca",
-  "version": 1,
-  "note": "One approved frame, seven additional images anticipated. Set status to published and provide a same-origin src when approved; the page adds only published images.",
+  "version": 3,
+  "status": "published",
+  "year": 2026,
+  "image_count": 8,
+  "display_order": "The Chamber, Seneca, The Villa, The Summons, The Witnesses, The Bath, The Tablet, The Hand",
+  "note": "Eight uploaded DLORIAN images. Frame 01 is hero and is not repeated. Gallery 02–08 is server-rendered HTML, not dependent on JavaScript. Original initial Seneca composition preserved in Git history.",
   "frames": [
     {
       "id": "01",
-      "title": "The last hours",
+      "title": "The Chamber",
       "status": "published",
       "src": "assets/seneca/frame-01.webp",
-      "alt": "The philosopher Seneca at the centre of a dark Roman chamber with crimson light and distant witnesses."
+      "alt": "A dark Roman interior after Seneca’s death, with a bronze basin, white drapery and a distant cold glow.",
+      "width": 2048,
+      "height": 1147
     },
     {
       "id": "02",
-      "title": "The hand",
-      "status": "planned"
+      "title": "Seneca",
+      "status": "published",
+      "src": "assets/seneca/frame-02.webp",
+      "alt": "An intimate half-lit portrait of an elderly Seneca emerging from a nearly black room.",
+      "width": 2048,
+      "height": 1147
     },
     {
       "id": "03",
-      "title": "From the side",
-      "status": "planned"
+      "title": "The Villa",
+      "status": "published",
+      "src": "assets/seneca/frame-03.webp",
+      "alt": "A monumental Roman villa at dusk; distant figures approach a broad colonnaded facade.",
+      "width": 2048,
+      "height": 1147
     },
     {
       "id": "04",
-      "title": "The cup",
-      "status": "planned"
+      "title": "The Summons",
+      "status": "published",
+      "src": "assets/seneca/frame-04.webp",
+      "alt": "Armoured Roman soldiers seen from behind, ascending the steps of a monumental dark entrance.",
+      "width": 2048,
+      "height": 1147
     },
     {
       "id": "05",
-      "title": "The witnesses",
-      "status": "planned"
+      "title": "The Witnesses",
+      "status": "published",
+      "src": "assets/seneca/frame-05.webp",
+      "alt": "A luminous reclining figure, attended by shadowed companions in a dark Roman interior.",
+      "width": 2048,
+      "height": 1147
     },
     {
       "id": "06",
-      "title": "The face",
-      "status": "planned"
+      "title": "The Bath",
+      "status": "published",
+      "src": "assets/seneca/frame-06.webp",
+      "alt": "A seated Seneca raises one arm from a steaming stone bath in a crimson-lit room.",
+      "width": 1456,
+      "height": 816
     },
     {
       "id": "07",
-      "title": "The empty room",
-      "status": "planned"
+      "title": "The Tablet",
+      "status": "published",
+      "src": "assets/seneca/frame-07.webp",
+      "alt": "A large Roman-style inscription slab lit by warm embers beside indistinct standing figures.",
+      "width": 2048,
+      "height": 1147
     },
     {
       "id": "08",
-      "title": "Further image, subject pending selection",
-      "status": "planned"
+      "title": "The Hand",
+      "status": "published",
+      "src": "assets/seneca/frame-08.webp",
+      "alt": "An outstretched, bloodied hand above a dark bowl, catching soft golden reflections.",
+      "width": 2048,
+      "height": 1147
     }
   ]
 }
