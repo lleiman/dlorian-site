@@ -1,0 +1,49 @@
+{
+  "project": "The Death of Seneca",
+  "version": 1,
+  "note": "One approved frame, seven additional images anticipated. Set status to published and provide a same-origin src when approved; the page adds only published images.",
+  "frames": [
+    {
+      "id": "01",
+      "title": "The last hours",
+      "status": "published",
+      "src": "assets/seneca/frame-01.webp",
+      "alt": "The philosopher Seneca at the centre of a dark Roman chamber with crimson light and distant witnesses."
+    },
+    {
+      "id": "02",
+      "title": "The hand",
+      "status": "planned"
+    },
+    {
+      "id": "03",
+      "title": "From the side",
+      "status": "planned"
+    },
+    {
+      "id": "04",
+      "title": "The cup",
+      "status": "planned"
+    },
+    {
+      "id": "05",
+      "title": "The witnesses",
+      "status": "planned"
+    },
+    {
+      "id": "06",
+      "title": "The face",
+      "status": "planned"
+    },
+    {
+      "id": "07",
+      "title": "The empty room",
+      "status": "planned"
+    },
+    {
+      "id": "08",
+      "title": "Further image, subject pending selection",
+      "status": "planned"
+    }
+  ]
+}

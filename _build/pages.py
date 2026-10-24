@@ -267,9 +267,9 @@ seneca_feature = (
     '<div class="say" data-side="left">'
     '<span class="meta">PROJECT 01 / VISUAL NARRATIVE / 2026</span>'
     '<h2><a href="seneca.html">THE DEATH OF SENECA</a></h2>'
-    '<span class="meta">7 frames · work in progress</span>'
+    '<span class="meta">7 new images forthcoming</span>'
     '<p class="lead">The last hours of Seneca, held in one invented chamber. '
-    'Seven changes of distance. One approved image.</p>'
+    'One approved image, with seven more in preparation.</p>'
     '<a class="go" href="seneca.html">view project →</a>'
     '</div></section>'
 )
