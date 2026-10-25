@@ -102,20 +102,9 @@
 }
 @media(prefers-reduced-motion:reduce){.seneca *{scroll-behavior:auto!important}}
 
-/* EDITION V5: perceptual-light control (non-destructive), viewer, sound, research. */
-.seneca{--seneca-light:1.2}
-.seneca .seneca-cover-picture img{opacity:.7;filter:brightness(var(--seneca-light,1.2));transition:filter .12s linear}
-.seneca .seneca-plate img,.seneca .seneca-reference-gallery img,.seneca .seneca-view-image{filter:brightness(var(--seneca-light,1.2));transition:filter .12s linear}
-.seneca-light-toggle{padding:7px 10px;border:1px solid #614b44;background:none;color:#e9c4b9;cursor:pointer;letter-spacing:.08em;font:400 10px/1.1 "IBM Plex Mono",monospace;white-space:nowrap}
-.seneca-light-toggle span{font-size:14px;margin-left:6px}
-.seneca-light-toggle:hover,.seneca-light-toggle[aria-expanded="true"]{background:#2a1814;border-color:#ad796b}
-.seneca-light-controls{position:fixed;right:clamp(10px,3vw,52px);top:61px;z-index:45;width:min(415px,calc(100vw - 20px));background:rgba(22,15,13,.97);border:1px solid #79564a;box-shadow:0 20px 70px #000b;padding:19px;display:grid;grid-template-columns:1fr auto;gap:10px 20px;align-items:center}
-.seneca-light-controls[hidden]{display:none}
-.seneca-light-controls label{font-size:10px;letter-spacing:.12em;color:#eccec2}
-.seneca-light-controls output{font-size:13px;color:#eccec2;text-align:right;font-variant-numeric:tabular-nums}
-.seneca-light-controls input{grid-column:1/-1;width:100%;accent-color:#c98e81;cursor:pointer}
-.seneca-light-controls button{justify-self:start;background:none;border-bottom:1px solid #ad7564;color:#e5bdb1;cursor:pointer;padding:8px 0;font-size:10px}
-.seneca-light-controls small{justify-self:end;text-align:right;color:#b0a19c;font-size:10px;line-height:1.55}
+/* Published brightness defaults to 120%; editors configure images independently. */
+.seneca .seneca-cover-picture img{opacity:.7;filter:brightness(var(--seneca-light,1.2));}
+.seneca .seneca-plate img,.seneca .seneca-view-image{filter:brightness(var(--seneca-light,1.2));}
 .seneca-research-note{max-width:1560px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:clamp(32px,7vw,140px);padding:clamp(80px,12vw,165px) clamp(20px,5vw,90px);border-top:1px solid var(--rule)}
 .seneca-research-label{font-size:10px;letter-spacing:.11em;color:#b98072}
 .seneca-research-note h2{font:400 clamp(41px,6vw,87px)/1.04 Georgia,serif;letter-spacing:-.053em;margin:0 0 36px}
@@ -152,11 +141,8 @@
  .seneca-research-note{grid-template-columns:1fr;gap:25px}
  .seneca-view-footer{grid-template-columns:1fr}
  .seneca-view-footer small{display:none}
- .seneca-light-controls small{font-size:9px}
 }
 @media(max-width:600px){
- .seneca-light-toggle{font-size:9px;padding:7px 8px}
- .seneca-light-toggle span{display:none}
  .seneca-topbar nav{gap:10px}
  .seneca-cover-picture img{object-position:center center}
  .seneca-research-note{padding:85px 23px}
@@ -167,4 +153,22 @@
  .seneca-view-footer{padding:12px 20px 18px;max-height:29dvh}
  .seneca-view-footer p{font-size:13px}
  .seneca-music-player{padding:10px 12px;width:min(330px,calc(100vw - 24px))}
+}
+
+/* Protected editor chrome exists only after server-side token validation. */
+.seneca-editor-banner{position:sticky;top:54px;z-index:33;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:11px clamp(20px,3vw,45px);background:#24140f;border-bottom:1px solid #9a6352;color:#efccbc;font:400 10px/1.4 "IBM Plex Mono",monospace;letter-spacing:.075em}
+.seneca-editor-banner a{color:#fff;border-bottom:1px solid #ddad98;padding-bottom:4px}
+.seneca-edit-strip{display:grid;grid-template-columns:auto minmax(130px,1fr) auto auto;gap:12px;align-items:center;max-width:1250px;margin:18px auto 0;padding:15px clamp(14px,3vw,26px);background:#1d120f;border:1px solid #745144;font:400 10px/1.2 "IBM Plex Mono",monospace;letter-spacing:.06em}
+.seneca-edit-strip label{color:#f1c4b5;white-space:nowrap}
+.seneca-edit-strip input{width:100%;accent-color:#d3917a;cursor:pointer}
+.seneca-edit-strip output{font-variant-numeric:tabular-nums;color:#eed4c8;white-space:nowrap}
+.seneca-edit-strip button{background:transparent;border:1px solid #80594c;padding:8px 11px;color:#e9c7b9;cursor:pointer}
+.seneca-edit-strip .seneca-edit-status{grid-column:1 / -1;color:#afa09a;font-size:9px}
+.seneca-plate .seneca-edit-strip{margin-left:20px;margin-right:20px}
+.seneca-view-footer .seneca-edit-strip{margin-top:0;grid-column:1 / -1;max-width:none;width:100%}
+@media(max-width:650px){
+ .seneca-edit-strip{grid-template-columns:1fr auto auto;gap:12px}
+ .seneca-edit-strip label{grid-column:1 / -1}
+ .seneca-edit-strip input{grid-column:1 / -1}
+ .seneca-edit-strip .seneca-edit-status{grid-column:1 / -1}
 }

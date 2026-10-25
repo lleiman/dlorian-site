@@ -125,6 +125,7 @@ td.num{font-variant-numeric:tabular-nums;color:var(--dim)}
   <span class="who" id="who"></span>
   <span class="right">
     <a class="btn" href="/" target="_blank">сайт ↗</a>
+    <a class="btn" id="seneca-editor-link" href="seneca.html?edit=1" target="_blank" rel="noopener" hidden>Seneca · яркость ↗</a>
     <button class="btn" id="rebuild">пересобрать</button>
     <button class="btn" id="forget">забыть токен</button>
   </span>
@@ -676,6 +677,7 @@ td.num{font-variant-numeric:tabular-nums;color:var(--dim)}
   function start() {
     gate.hidden = true;
     wrap.hidden = false;
+    document.getElementById("seneca-editor-link").hidden = false;
     var h = (location.hash || "").replace("#", "");
     if (SECTIONS.some(function (s) { return s.id === h; })) current = h;
     build();

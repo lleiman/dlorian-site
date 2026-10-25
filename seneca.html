@@ -19,14 +19,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400&display=swap">
 <link rel="stylesheet" href="assets/css/style.css?v=33">
-<link rel="stylesheet" href="assets/css/seneca.css?v=5">
+<link rel="stylesheet" href="assets/css/seneca.css?v=6">
 </head>
 <body class="seneca">
 <a class="seneca-skip" href="#sequence">Skip to the images</a>
 <header class="seneca-topbar"><a class="seneca-wordmark" href="index.html">DLORIAN</a>
-  <nav aria-label="Page navigation"><a href="#sequence">SEQUENCE</a><a href="#record">SOURCE</a><a href="#context">CONTEXT</a><a href="index.html">ALL WORK ↗</a><button type="button" id="seneca-light-toggle" class="seneca-light-toggle" aria-controls="seneca-light-controls" aria-expanded="false" title="Brightness controls, shortcut B">LIGHT <span aria-hidden="true">☼</span></button></nav>
+  <nav aria-label="Page navigation"><a href="#sequence">SEQUENCE</a><a href="#record">SOURCE</a><a href="#context">CONTEXT</a><a href="index.html">ALL WORK ↗</a></nav>
 </header>
-<div id="seneca-light-controls" class="seneca-light-controls" hidden><label for="seneca-brightness">IMAGE BRIGHTNESS</label><input id="seneca-brightness" type="range" min="0.8" max="1.85" value="1.2" step="0.05"><output id="seneca-brightness-value" for="seneca-brightness">120%</output><button type="button" id="seneca-light-reset">RESET 100%</button><small>B: show/hide · [ / ] or − / +: adjust · 0: reset</small></div>
+
 <main>
 <section class="seneca-cover" aria-labelledby="seneca-title">
   <div class="seneca-cover-picture" aria-hidden="true"><img src="assets/seneca/scene-04-last-hours.webp" width="2048" height="1147" decoding="async" alt=""></div>
@@ -83,9 +83,9 @@
   <div class="seneca-view-shell">
     <div class="seneca-view-top"><span>DLORIAN / THE DEATH OF SENECA</span><span class="seneca-view-number">01 / 09</span><button class="seneca-view-close" type="button" aria-label="Close image viewer">CLOSE ×</button></div>
     <div class="seneca-view-stage"><button class="seneca-view-nav" type="button" data-view-step="-1" aria-label="Previous artwork">‹</button><img class="seneca-view-image" alt=""><button class="seneca-view-nav" type="button" data-view-step="1" aria-label="Next artwork">›</button></div>
-    <div class="seneca-view-footer"><div><strong class="seneca-view-title">ARTWORK</strong><p class="seneca-view-description"></p></div><small>← → NAVIGATE · ESC CLOSE · B / ± BRIGHTNESS</small></div>
+    <div class="seneca-view-footer"><div><strong class="seneca-view-title">ARTWORK</strong><p class="seneca-view-description"></p></div><small>← → NAVIGATE · ESC CLOSE</small></div>
   </div>
 </dialog>
-<script src="assets/js/seneca-experience.js?v=1" defer></script>
+<script src="assets/js/seneca-experience.js?v=2" defer></script>
 </body>
 </html>

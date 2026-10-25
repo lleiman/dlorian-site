@@ -44,7 +44,10 @@ The portfolio continues to count the existing 11 regular series separately from 
 
 ## Interactive exhibition update — 2026-10-25
 
-Light / luminosity: all paintings and reproductions use a non-destructive CSS brightness filter with 120% default. The LIGHT control in the sticky navigation opens a range slider (80–185%). Shortcuts: B toggles the panel, + and ] add 5%, - and [ subtract 5%, 0 resets to neutral 100%. Settings persist in localStorage. Viewer respects the same brightness setting, with source files unchanged.
+Light / luminosity (2026-10-25 revision): **removed the public global brightness slider and all global B / + / - / 0 brightness shortcuts**. The first brightness treatment is 120% for each of the nine art images. Visitors simply see the curated values; brightness settings are fetched from public read-only `GET /api/seneca/brightness`, while source WebP files remain unchanged. The cover and modal viewer share the brightness of scene 04 and of the currently selected scene, respectively. Art-historical third-party reproductions are not controlled.
+
+Editor: sign in at `/admin.html` using the existing admin token, then follow **Seneca · яркость** to `/seneca.html?edit=1`. The page requests `GET /api/admin/seneca/brightness` with the X-Admin header before rendering any editor controls. The secret is never placed in query parameters. Each image has its own slider, visible only after authorization. Edits preview instantly and auto-save when released via protected `PUT /api/admin/seneca/brightness` with JSON body `{"id":"01".."09","brightness":0.8..1.85}`, with 5% increments. Neutral reset 100% per image. The server atomically stores settings in `/data/seneca-brightness.json` on Railway's persistent volume. Visitors cannot write these values. If editing isn't authorized, a link to `/admin.html` is shown and no sliders are rendered.
+
 
 Artwork viewer: click any of the nine series paintings for a modal with a whole-image contain-fit presentation, interpretive description, title, count, arrow buttons, keyboard navigation and Esc. Touch swipe also works. External paintings in the historical section retain their institution links.
 

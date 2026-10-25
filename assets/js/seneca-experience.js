@@ -4,28 +4,128 @@
 var body=document.body;
 if(!body.classList.contains("seneca"))return;
 
-/* Brightness is a non-destructive display preference, not an edit to the paintings. */
-var panel=document.getElementById("seneca-light-controls");
-var slider=document.getElementById("seneca-brightness");
-var output=document.getElementById("seneca-brightness-value");
-var toggle=document.getElementById("seneca-light-toggle");
-var reset=document.getElementById("seneca-light-reset");
-var defaultLight=1.2,brightness=defaultLight,key="dlorian-seneca-brightness-v1";
-try {var saved=parseFloat(localStorage.getItem(key));if(isFinite(saved))brightness=saved;} catch (_) {}
-function clamp(n){return Math.min(1.85,Math.max(.80,Math.round(n*20)/20));}
-function applyBrightness(n){
- brightness=clamp(n); body.style.setProperty("--seneca-light",String(brightness));
- if(slider)slider.value=String(brightness);
- if(output)output.textContent=Math.round(brightness*100)+"%";
- try{localStorage.setItem(key,String(brightness));}catch(_){}
+/* Public visitors see the curated brightness for each painting, but NO controls.
+   Editor view is opened only from the authenticated admin: seneca.html?edit=1.
+   The server always verifies X-Admin before allowing changes. */
+var defaultLight=1.2,levels={};
+var frames=Array.prototype.slice.call(document.querySelectorAll(".seneca-plate"));
+var editorEnabled=false;
+var editUiById={};
+var modalStrip=null;
+function idOf(fig){return fig && fig.getAttribute("data-no");}
+function levelOf(id){
+ var raw=Number(levels[id]);
+ return Number.isFinite(raw)&&raw>=.8&&raw<=1.85?raw:defaultLight;
 }
-applyBrightness(brightness);
-if(slider)slider.addEventListener("input",function(){applyBrightness(parseFloat(slider.value));});
-if(reset)reset.addEventListener("click",function(){applyBrightness(1);});
-if(toggle&&panel)toggle.addEventListener("click",function(){
- panel.hidden=!panel.hidden;toggle.setAttribute("aria-expanded",String(!panel.hidden));
- if(!panel.hidden)slider.focus();
-});
+function applyLight(id){
+ var amount=levelOf(id);
+ frames.forEach(function(f){
+  if(idOf(f)!==id)return;
+  var pic=f.querySelector("img");
+  if(pic)pic.style.setProperty("--seneca-light",String(amount));
+ });
+ if(id==="04"){
+  var cover=document.querySelector(".seneca-cover-picture img");
+  if(cover)cover.style.setProperty("--seneca-light",String(amount));
+ }
+ if(typeof current!=="undefined"&&current>=0&&figures[current]&&idOf(figures[current])===id&&img){
+  img.style.setProperty("--seneca-light",String(amount));
+ }
+ (editUiById[id]||[]).forEach(function(strip){
+  var range=strip.querySelector("input");
+  var output=strip.querySelector("output");
+  if(range&&document.activeElement!==range)range.value=String(amount);
+  if(output)output.textContent=Math.round(amount*100)+"%";
+ });
+}
+function applyAll(){
+ frames.forEach(function(f){applyLight(idOf(f));});
+}
+function acceptLevels(data){
+ if(!data||!data.levels||typeof data.levels!=="object")return;
+ frames.forEach(function(f){
+  var id=idOf(f),v=Number(data.levels[id]);
+  if(Number.isFinite(v)&&v>=.8&&v<=1.85)levels[id]=v;
+ });
+ applyAll();
+}
+function editorToken(){try{return localStorage.getItem("dl-admin")||"";}catch(_){return"";}}
+function editorRequest(method,payload){
+ return fetch("/api/admin/seneca/brightness",{
+  method:method,
+  headers:{"X-Admin":editorToken(),"Content-Type":"application/json"},
+  body:payload?JSON.stringify(payload):undefined,
+  cache:"no-store"
+ }).then(function(r){if(!r.ok)throw Error("Authorization or save failed ("+r.status+")");return r.json();});
+}
+function createStrip(id,isViewer){
+ var strip=document.createElement("div");
+ strip.className="seneca-edit-strip";
+ var label=document.createElement("label");
+ label.textContent="BRIGHTNESS / "+id;
+ var slider=document.createElement("input");
+ slider.type="range";slider.dataset.frame=id;slider.min=".8";slider.max="1.85";slider.step=".05";slider.value=String(levelOf(id));
+ slider.setAttribute("aria-label","Brightness for painting "+id);
+ var out=document.createElement("output");out.textContent=Math.round(levelOf(id)*100)+"%";
+ var reset=document.createElement("button");reset.type="button";reset.textContent="100%";
+ reset.title="Restore neutral brightness for this image";
+ var status=document.createElement("span");status.className="seneca-edit-status";status.setAttribute("role","status");status.textContent="EDITOR ONLY · AUTO-SAVE";
+ strip.append(label,slider,out,reset,status);
+ label.appendChild(document.createTextNode(" "));
+ label.htmlFor="seneca-slider-"+id+(isViewer?"-viewer":"-work");
+ slider.id=label.htmlFor;
+ (editUiById[id]||(editUiById[id]=[])).push(strip);
+ var pending=false;
+ function preview(v){
+  levels[id]=Math.round(Math.min(1.85,Math.max(.8,v))*20)/20;
+  out.textContent=Math.round(levelOf(id)*100)+"%";
+  applyLight(id);
+  status.textContent="UNSAVED";
+ }
+ function save(){
+  if(pending)return;
+  pending=true;status.textContent="SAVING…";slider.disabled=true;reset.disabled=true;
+  var v=levelOf(id);
+  editorRequest("PUT",{id:id,brightness:v}).then(function(data){
+   acceptLevels(data);status.textContent="SAVED";
+  }).catch(function(){
+   status.textContent="SAVE FAILED · RETRY";
+  }).finally(function(){pending=false;slider.disabled=false;reset.disabled=false;});
+ }
+ slider.addEventListener("input",function(){preview(Number(slider.value));});
+ slider.addEventListener("change",save);
+ reset.addEventListener("click",function(){preview(1);slider.value="1";save();});
+ return strip;
+}
+function editorBanner(text,authenticated){
+ var top=document.createElement("div");top.className="seneca-editor-banner";
+ var t=document.createElement("span");t.textContent=text;top.appendChild(t);
+ var a=document.createElement("a");
+ a.href=authenticated?"seneca.html":"admin.html";
+ a.textContent=authenticated?"EXIT EDITOR →":"SIGN IN TO EDIT →";
+ top.appendChild(a);document.body.prepend(top);
+}
+function setupEditor(){
+ editorEnabled=true;
+ document.body.classList.add("seneca-editor-mode");
+ editorBanner("EDITOR MODE · EACH PAINTING HAS ITS OWN BRIGHTNESS · SAVED TO SITE",true);
+ frames.forEach(function(f){
+  f.appendChild(createStrip(idOf(f)));
+ });
+}
+fetch("/api/seneca/brightness",{cache:"no-store"}).then(function(r){
+ if(!r.ok)throw Error("Brightness unavailable");
+ return r.json();
+}).then(acceptLevels).catch(function(){/* Default 120% fallback remains usable. */});
+if(new URLSearchParams(location.search).get("edit")==="1"){
+ if(!editorToken()){
+  editorBanner("EDITOR MODE REQUIRES ADMIN SIGN-IN",false);
+ }else{
+  editorRequest("GET").then(function(data){acceptLevels(data);setupEditor();}).catch(function(){
+   editorBanner("EDITOR MODE REQUIRES VALID ADMIN AUTHORIZATION",false);
+  });
+ }
+}
 
 /* Reuse the gallery's expected interactions: fit-to-screen, caption, next/previous, Esc. */
 var figures=Array.prototype.slice.call(document.querySelectorAll(".seneca-plate"));
@@ -55,6 +155,12 @@ function renderFrame(i){
  if(num)num.textContent=id+" / "+String(figures.length).padStart(2,"0");
  if(title)title.textContent=f.querySelector("figcaption span:nth-child(2)")?.textContent||"Untitled";
  if(description)description.textContent=descriptions[id]||source.alt||"";
+ img.style.setProperty("--seneca-light",String(levelOf(id)));
+ if(modalStrip){var idBefore=modalStrip.querySelector("input")?.getAttribute("data-frame");if(idBefore&&editUiById[idBefore])editUiById[idBefore]=editUiById[idBefore].filter(function(el){return el!==modalStrip;});modalStrip.remove();modalStrip=null;}
+ if(editorEnabled){
+   modalStrip=createStrip(id,true);
+   dialog.querySelector(".seneca-view-footer").appendChild(modalStrip);
+ }
 }
 function openAt(i){
  if(!dialog||!dialog.showModal)return;
@@ -71,7 +177,7 @@ if(dialog){
  dialog.querySelectorAll("[data-view-step]").forEach(function(b){b.addEventListener("click",function(){renderFrame(current+Number(b.getAttribute("data-view-step")));});});
  dialog.querySelector(".seneca-view-close")?.addEventListener("click",close);
  dialog.addEventListener("click",function(e){if(e.target===dialog)close();});
- dialog.addEventListener("close",function(){if(img)img.removeAttribute("src");if(previousFocus&&typeof previousFocus.focus==="function")previousFocus.focus();});
+ dialog.addEventListener("close",function(){if(img)img.removeAttribute("src");if(modalStrip){var idBefore=modalStrip.querySelector("input")?.getAttribute("data-frame");if(idBefore&&editUiById[idBefore])editUiById[idBefore]=editUiById[idBefore].filter(function(el){return el!==modalStrip;});modalStrip.remove();modalStrip=null;}if(previousFocus&&typeof previousFocus.focus==="function")previousFocus.focus();});
  var tx=null;dialog.addEventListener("touchstart",function(e){tx=e.changedTouches[0]?.clientX??null;},{passive:true});
  dialog.addEventListener("touchend",function(e){if(tx===null)return;var delta=e.changedTouches[0].clientX-tx;if(Math.abs(delta)>65)renderFrame(current+(delta<0?1:-1));tx=null;},{passive:true});
 }
@@ -82,10 +188,7 @@ document.addEventListener("keydown",function(e){
   if(e.key==="ArrowLeft"){e.preventDefault();renderFrame(current-1);return;}
   if(e.key==="ArrowRight"){e.preventDefault();renderFrame(current+1);return;}
  }
- if(e.key.toLowerCase()==="b"){if(toggle){e.preventDefault();toggle.click();}return;}
- if(e.key==="]"||e.key==="+"||e.key==="="){e.preventDefault();applyBrightness(brightness+.05);}
- else if(e.key==="["||e.key==="-"){e.preventDefault();applyBrightness(brightness-.05);}
- else if(e.key==="0"){e.preventDefault();applyBrightness(1);}
+
 });
 
 /* User-initiated playback only. This is an original temporary sound study,

@@ -10,6 +10,7 @@
 """
 import io
 import json
+import math
 import os
 import re
 import secrets
@@ -20,6 +21,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from threading import Lock
 
 from flask import (Flask, abort, g, jsonify, redirect, request,
                    send_from_directory)
@@ -36,6 +38,40 @@ DB_PATH = DATA_DIR / "site.db"
 PHOTOS_NEED_APPROVAL = os.environ.get("PHOTOS_NEED_APPROVAL", "1") != "0"
 # Токен для модерации. Без него админские ручки просто выключены.
 ADMIN_TOKEN = os.environ.get("ADMIN_TOKEN", "")
+
+# Brightness is per DLORIAN Seneca artwork, editable only with X-Admin.
+# The public read endpoint conveys the approved image treatment to visitors;
+# the original WebP images are never changed.
+SENECA_LIGHT_FILE = DATA_DIR / "seneca-brightness.json"
+SENECA_LIGHT_DEFAULT = 1.2
+SENECA_FRAME_IDS = tuple(f"{n:02d}" for n in range(1, 10))
+SENECA_LIGHT_LOCK = Lock()
+
+def _valid_light(value):
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    if not math.isfinite(value) or not (0.8 <= value <= 1.85):
+        return None
+    # 5% steps, exactly matching the editor slider
+    if abs(value * 20 - round(value * 20)) > 0.000001:
+        return None
+    return round(float(value), 2)
+
+
+def _read_seneca_lights():
+    values = {key: SENECA_LIGHT_DEFAULT for key in SENECA_FRAME_IDS}
+    try:
+        data = json.loads(SENECA_LIGHT_FILE.read_text(encoding="utf-8"))
+        if isinstance(data, dict):
+            for k, val in data.items():
+                if k in values:
+                    clean = _valid_light(val)
+                    if clean is not None:
+                        values[k] = clean
+    except (OSError, json.JSONDecodeError):
+        pass
+    return values
+
 
 MAX_BODY = 2000
 MAX_NAME = 60
@@ -274,6 +310,49 @@ def tally(work):
 
 def is_admin():
     return bool(ADMIN_TOKEN) and request.headers.get("X-Admin", "") == ADMIN_TOKEN
+
+
+# ---------- Seneca: public rendering, protected per-image adjustments ----------
+
+@app.get("/api/seneca/brightness")
+def seneca_public_brightness():
+    res = jsonify({"levels": _read_seneca_lights(), "default": SENECA_LIGHT_DEFAULT})
+    res.headers["Cache-Control"] = "no-store"
+    return res
+
+
+@app.get("/api/admin/seneca/brightness")
+def seneca_admin_brightness():
+    if not is_admin():
+        abort(404)
+    res = jsonify({"levels": _read_seneca_lights()})
+    res.headers["Cache-Control"] = "no-store"
+    return res
+
+
+@app.put("/api/admin/seneca/brightness")
+def seneca_update_brightness():
+    if not is_admin():
+        abort(404)
+    obj = request.get_json(silent=True)
+    if not isinstance(obj, dict) or set(obj) != {"id", "brightness"}:
+        return jsonify({"error": "expected image id and brightness"}), 400
+    image_id = obj["id"]
+    value = _valid_light(obj["brightness"])
+    if not isinstance(image_id, str) or image_id not in SENECA_FRAME_IDS or value is None:
+        return jsonify({"error": "invalid image or brightness (80–185%, 5% steps)"}), 400
+    with SENECA_LIGHT_LOCK:
+        values = _read_seneca_lights()
+        values[image_id] = value
+        temp = SENECA_LIGHT_FILE.with_suffix(".json.tmp")
+        try:
+            temp.write_text(json.dumps(values, sort_keys=True), encoding="utf-8")
+            temp.replace(SENECA_LIGHT_FILE)  # atomic update on Railway volume
+        except OSError:
+            return jsonify({"error": "could not save"}), 500
+    res = jsonify({"saved": image_id, "brightness": value, "levels": values})
+    res.headers["Cache-Control"] = "no-store"
+    return res
 
 
 # ---------- API: голоса ----------
