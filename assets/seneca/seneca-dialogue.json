@@ -1,0 +1,197 @@
+{
+  "title": "The Death of Seneca",
+  "kind": "historically sourced dramatic reconstruction",
+  "duration": 185.758,
+  "credits": "Synthetic rehearsal voices; original procedurally composed ambient score; historical excerpts identified and attributed; all other dialogue is reconstructed. Pompeia Paulina survived, as recorded in Tacitus Annals 15.64.",
+  "cues": [
+    {
+      "id": "01",
+      "speaker": "SENECA",
+      "text": "Incertum est quo loco te mors exspectet. Itaque tu illam omni loco exspecta.",
+      "source": "Latin · Seneca, Epistulae morales 26.7 · his earlier writing",
+      "language": "latin",
+      "start": 10.0,
+      "end": 19.397
+    },
+    {
+      "id": "02",
+      "speaker": "PAULINA",
+      "text": "The soldiers have arrived.",
+      "source": "Reconstructed dialogue",
+      "language": "en",
+      "start": 23.197,
+      "end": 25.729
+    },
+    {
+      "id": "03",
+      "speaker": "SENECA",
+      "text": "Then the order has come.",
+      "source": "Reconstructed dialogue",
+      "language": "en",
+      "start": 28.929,
+      "end": 31.457
+    },
+    {
+      "id": "04",
+      "speaker": "PAULINA",
+      "text": "You speak as though you have been waiting for them.",
+      "source": "Reconstructed dialogue",
+      "language": "en",
+      "start": 34.857,
+      "end": 38.27
+    },
+    {
+      "id": "05",
+      "speaker": "SENECA",
+      "text": "I have been waiting for death. Not for the sound of their footsteps.",
+      "source": "Reconstructed dialogue",
+      "language": "en",
+      "start": 40.77,
+      "end": 46.355
+    },
+    {
+      "id": "06",
+      "speaker": "PAULINA",
+      "text": "What happens now?",
+      "source": "Reconstructed dialogue",
+      "language": "en",
+      "start": 50.655,
+      "end": 52.827
+    },
+    {
+      "id": "07",
+      "speaker": "SENECA",
+      "text": "They have given me no choice. But I can choose how to meet it.",
+      "source": "Reconstructed dialogue",
+      "language": "en",
+      "start": 56.027,
+      "end": 61.613
+    },
+    {
+      "id": "08",
+      "speaker": "PAULINA",
+      "text": "Then I will share your fate.",
+      "source": "Reconstructed dialogue, based on Tacitus, Annals 15.63",
+      "language": "en",
+      "start": 64.913,
+      "end": 67.419
+    },
+    {
+      "id": "09",
+      "speaker": "SENECA",
+      "text": "I asked you to live.",
+      "source": "Reconstructed dialogue",
+      "language": "en",
+      "start": 72.019,
+      "end": 74.263
+    },
+    {
+      "id": "10",
+      "speaker": "PAULINA",
+      "text": "You asked me to live without you.",
+      "source": "Reconstructed dialogue",
+      "language": "en",
+      "start": 77.163,
+      "end": 79.975
+    },
+    {
+      "id": "11",
+      "speaker": "SENECA",
+      "text": "Vitae delenimenta monstraveram tibi, tu mortis decus mavis.",
+      "source": "Latin · words attributed to Seneca by Tacitus, Annals 15.63",
+      "language": "latin",
+      "start": 83.675,
+      "end": 90.3
+    },
+    {
+      "id": "12",
+      "speaker": "SENECA",
+      "text": "I showed you the consolations of life. You prefer the honour of death.",
+      "source": "English rendering of Tacitus, Annals 15.63",
+      "language": "en",
+      "start": 94.4,
+      "end": 100.09
+    },
+    {
+      "id": "13",
+      "speaker": "PAULINA",
+      "text": "I do not know how to leave you here alone.",
+      "source": "Reconstructed dialogue",
+      "language": "en",
+      "start": 103.39,
+      "end": 106.812
+    },
+    {
+      "id": "14",
+      "speaker": "SENECA",
+      "text": "Nor do I know how to leave you.",
+      "source": "Reconstructed dialogue",
+      "language": "en",
+      "start": 110.912,
+      "end": 113.876
+    },
+    {
+      "id": "15",
+      "speaker": "PAULINA",
+      "text": "Are you not afraid?",
+      "source": "Reconstructed dialogue",
+      "language": "en",
+      "start": 118.776,
+      "end": 120.738
+    },
+    {
+      "id": "16",
+      "speaker": "SENECA",
+      "text": "Accipio condicionem. Non reformido iudicium.",
+      "source": "Latin · Seneca, Epistulae morales 26.6 · his earlier writing",
+      "language": "latin",
+      "start": 124.238,
+      "end": 129.734
+    },
+    {
+      "id": "17",
+      "speaker": "SENECA",
+      "text": "I wrote that before tonight.",
+      "source": "Reconstructed dialogue",
+      "language": "en",
+      "start": 132.034,
+      "end": 134.782
+    },
+    {
+      "id": "18",
+      "speaker": "SENECA",
+      "text": "A sentence is easier to hold than a hand.",
+      "source": "Reconstructed dialogue",
+      "language": "en",
+      "start": 138.582,
+      "end": 142.402
+    },
+    {
+      "id": "19",
+      "speaker": "PAULINA",
+      "text": "Let me stay.",
+      "source": "Reconstructed dialogue",
+      "language": "en",
+      "start": 148.002,
+      "end": 149.807
+    },
+    {
+      "id": "20",
+      "speaker": "SENECA",
+      "text": "Remember my life. Not only this room.",
+      "source": "Reconstructed dialogue inspired by Tacitus, Annals 15.62",
+      "language": "en",
+      "start": 154.807,
+      "end": 158.929
+    },
+    {
+      "id": "21",
+      "speaker": "PAULINA",
+      "text": "Seneca.",
+      "source": "Reconstructed dialogue",
+      "language": "en",
+      "start": 163.829,
+      "end": 165.258
+    }
+  ]
+}

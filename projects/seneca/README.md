@@ -58,3 +58,24 @@ Audio: assets/seneca/seneca-study-01.mp3 is an original 48-second procedural amb
 Suno instrumental brief: Dark, intimate neoclassical ambient for a nine-image visual narrative about Seneca's final hours, AD 65. Four to five minutes; continuously evolving deep bowed double bass and cello harmonics, shadowed viola drones, distant bronze resonance, faint granular air, long stone-chamber reverberation. D minor with occasional modal inflections, unresolved sparse dissonance, almost imperceptible rhythm, no climax, grief without melodrama, deliberate fade into silence. No vocals, no spoken words, no heroic trailer scoring, no percussion beat, no bright modern piano, no arpeggios or EDM elements.
 
 New client script: assets/js/seneca-experience.js.
+
+
+## 2026-10-25 — audio drama prototype and bottom cinema strip
+
+The new full-width, black/white, film-style soundtrack strip uses modes:
+- DIALOGUE: `assets/seneca/seneca-dialogue-study.mp3`, 185.76 seconds. Contains two distinct **synthetic rehearsal voices** (Seneca, Pompeia Paulina) mixed with a new original, procedurally generated ambient score; 21 lines.
+- SCORE: `assets/seneca/seneca-score-study.mp3`, identical 185.76-second instrumental timeline, with no voices.
+- SILENCE: stops audio immediately; page and controls stay usable. Changing between dialogue and score preserves the playhead.
+
+No autoplay. Caption/subtitle lane belongs to the **player strip at the bottom of the screen**, and never overlays the painting. Synchronized per-line metadata is at `assets/seneca/seneca-dialogue.json`; standalone subtitle file `assets/seneca/seneca-dialogue.vtt`. The archived full transcript is on the exhibition page, below historical context, and source labels distinguish the ancient Latin originals from English reconstructions.
+
+Historicity:
+- The dialogue is a dramatic *reconstruction*, NOT a transcription of historical speech.
+- Seneca's prior Latin writings quoted verbatim: `Incertum est quo loco te mors exspectet; itaque tu illam omni loco exspecta.` (Epistulae morales 26.7); `Accipio condicionem, non reformido iudicium.` (Epistulae morales 26.6).
+- Tacitus reports Seneca's words in Annals XV.63 as `Vitae delenimenta monstraveram tibi, tu mortis decus mavis.` This is attributed to Tacitus, *not* separately authenticated as a verbatim recording.
+- Paulina's original words are not preserved; her dialogue here is all fictionalized in reference to her choice as described by Tacitus in XV.63. Tacitus XV.64 records her survival. The dramatic coda does not depict Paulina's death.
+- English versions of Latin lines are original editorial renderings.
+
+Production warning: eSpeak speech voices are **rough demo-quality**, intentionally labelled as synthetic rehearsal voices. They are not definitive actor-grade performances. Replace both original mp3s with time-aligned professionally voiced/mixed versions once approved; align captions to final timings. Keep `dialogue.json` and `dialogue.vtt` in sync.
+
+Original generated audio source and cue generator: `/mnt/data/seneca_drama/produce.py` in the current work container (not committed). The two output mp3s and supporting transcript are committed to the site repository.
