@@ -19,13 +19,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400&display=swap">
 <link rel="stylesheet" href="assets/css/style.css?v=33">
-<link rel="stylesheet" href="assets/css/seneca.css?v=4">
+<link rel="stylesheet" href="assets/css/seneca.css?v=5">
 </head>
 <body class="seneca">
 <a class="seneca-skip" href="#sequence">Skip to the images</a>
 <header class="seneca-topbar"><a class="seneca-wordmark" href="index.html">DLORIAN</a>
-  <nav aria-label="Page navigation"><a href="#sequence">SEQUENCE</a><a href="#record">SOURCE</a><a href="#context">CONTEXT</a><a href="index.html">ALL WORK ↗</a></nav>
+  <nav aria-label="Page navigation"><a href="#sequence">SEQUENCE</a><a href="#record">SOURCE</a><a href="#context">CONTEXT</a><a href="index.html">ALL WORK ↗</a><button type="button" id="seneca-light-toggle" class="seneca-light-toggle" aria-controls="seneca-light-controls" aria-expanded="false" title="Brightness controls, shortcut B">LIGHT <span aria-hidden="true">☼</span></button></nav>
 </header>
+<div id="seneca-light-controls" class="seneca-light-controls" hidden><label for="seneca-brightness">IMAGE BRIGHTNESS</label><input id="seneca-brightness" type="range" min="0.8" max="1.85" value="1.2" step="0.05"><output id="seneca-brightness-value" for="seneca-brightness">120%</output><button type="button" id="seneca-light-reset">RESET 100%</button><small>B: show/hide · [ / ] or − / +: adjust · 0: reset</small></div>
 <main>
 <section class="seneca-cover" aria-labelledby="seneca-title">
   <div class="seneca-cover-picture" aria-hidden="true"><img src="assets/seneca/scene-04-last-hours.webp" width="2048" height="1147" decoding="async" alt=""></div>
@@ -49,8 +50,15 @@
 <figure class="seneca-plate seneca-plate-last" id="frame-09" data-no="09"><a href="assets/seneca/scene-09-empty-room.webp" target="_blank" rel="noopener" aria-label="Open artwork 09, the empty room"><img src="assets/seneca/scene-09-empty-room.webp" alt="The Roman hall after the event, emptied of people, with a bronze basin, white drapery and distant cold blue light." width="2048" height="1147" decoding="async" loading="lazy"></a><figcaption><span>09 / 09</span><span>THE EMPTY ROOM</span><span>DLORIAN · 2026</span></figcaption></figure>
   </div>
   <div class="seneca-sequence-end"><span>END OF THE SEQUENCE / 09</span><p>The Latin passages are short extracts from Tacitus' account, not inscriptions reproduced from the paintings. English renderings are editorial translations. The lettering in <em>The Order</em> is invented visual material and should not be read as an authentic Roman document.</p></div>
+  <section class="seneca-research-note" aria-labelledby="seneca-research-heading">
+    <span class="seneca-research-label">THE ARTIST'S RESEARCH / 2026</span>
+    <div><h2 id="seneca-research-heading">Before the images.</h2>
+    <p>Before beginning this series, I read Seneca's philosophical writings and his letters, alongside Tacitus's account of his final hours. I wanted to approach the scene through more than its visible actions: Seneca's reflections on mortality, fear, human agency and composure informed how I imagined the philosopher and those around him.</p>
+    <p>I worked toward historical and psychological precision wherever the texts permitted it. The faces, the architecture, the gestures and the light remain acts of interpretation. These images attempt to understand an experience that no surviving account can show us directly.</p>
+    <span class="seneca-research-signature">DLORIAN · ARTIST'S NOTE</span></div>
+  </section>
 </section>
-<section class="seneca-commentary" id="record" aria-labelledby="record-title">
+<section class="seneca-commentary" id="record' aria-labelledby="record-title">
   <div class="seneca-section-top"><span>02 / THE RECORD</span><span>TACITUS · ANNALES XV.60–64</span></div>
   <div class="seneca-editorial-grid"><h2 id="record-title">A death<br>recorded later.</h2><div class="seneca-editorial-prose"><p>In AD 65, Nero ordered Seneca's death. Tacitus describes the soldiers reaching his villa near evening, Seneca addressing his friends, Pompeia Paulina's decision to die with him, the slow loss of blood and the final attempt to hasten death through poison and heat.</p><p>Tacitus wrote decades after these events. What survives is an account, not an eyewitness image. The Roman buildings, faces, gestures and rooms in this series are deliberately invented.</p><div class="seneca-text-links"><a href="https://www.thelatinlibrary.com/tacitus/tac.ann15.shtml" target="_blank" rel="noopener noreferrer">READ LATIN TEXT ↗</a><a href="https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.02.0078%3Abook%3D15%3Achapter%3D60" target="_blank" rel="noopener noreferrer">READ ENGLISH TRANSLATION ↗</a></div><small>Chapter numbering follows the Latin Library edition cited here; some editions shift these chapter numbers by one.</small></div></div>
 </section>
@@ -66,5 +74,18 @@
 <section class="seneca-commentary seneca-archive" aria-labelledby="archive-title"><div class="seneca-section-top"><span>04 / THE MANUSCRIPT</span><span>FLORENCE · XI CENTURY</span></div><div class="seneca-editorial-grid"><h2 id="archive-title">What remains<br>of the record.</h2><div class="seneca-editorial-prose"><p>Our access to Tacitus comes through manuscripts copied centuries after Seneca's lifetime. Among the witnesses to the later books of the <em>Annals</em> is the eleventh-century Laurentian manuscript Plut. 68.2, held in Florence.</p><p>The manuscript is a material witness to the text's transmission. It is not a contemporary record of the events in AD 65.</p><div class="seneca-text-links"><a href="https://iiif.biblissima.fr/collections/manifest/7732b9be3e8d876682156a09a60aeb9b863c5e23" target="_blank" rel="noopener noreferrer">VIEW DIGITIZED MANUSCRIPT ↗</a></div></div></div></section>
 <footer class="seneca-footer"><span>DLORIAN / 2026</span><p>THE DEATH OF SENECA</p><a href="index.html">← ALL WORK</a></footer>
 </main>
+<aside class="seneca-music-player" aria-label="Soundtrack player">
+  <audio id="seneca-track" src="assets/seneca/seneca-study-01.mp3" preload="none" loop></audio>
+  <div class="seneca-music-heading"><span>SOUND / STUDY I</span><span>ORIGINAL AMBIENT SKETCH</span></div>
+  <div class="seneca-music-controls"><button id="seneca-play" type="button" aria-label="Play soundtrack">PLAY</button><div class="seneca-music-progress"><input type="range" min="0" max="1000" value="0" step="1" id="seneca-progress" aria-label="Audio position"><span id="seneca-time">00:00 / 00:48</span></div><label for="seneca-volume" class="seneca-volume-label">VOL</label><input id="seneca-volume" type="range" min="0" max="1" step="0.05" value="0.62" aria-label="Volume"></div>
+</aside>
+<dialog id="seneca-viewer" class="seneca-viewer" aria-label="Artwork detail">
+  <div class="seneca-view-shell">
+    <div class="seneca-view-top"><span>DLORIAN / THE DEATH OF SENECA</span><span class="seneca-view-number">01 / 09</span><button class="seneca-view-close" type="button" aria-label="Close image viewer">CLOSE ×</button></div>
+    <div class="seneca-view-stage"><button class="seneca-view-nav" type="button" data-view-step="-1" aria-label="Previous artwork">‹</button><img class="seneca-view-image" alt=""><button class="seneca-view-nav" type="button" data-view-step="1" aria-label="Next artwork">›</button></div>
+    <div class="seneca-view-footer"><div><strong class="seneca-view-title">ARTWORK</strong><p class="seneca-view-description"></p></div><small>← → NAVIGATE · ESC CLOSE · B / ± BRIGHTNESS</small></div>
+  </div>
+</dialog>
+<script src="assets/js/seneca-experience.js?v=1" defer></script>
 </body>
 </html>

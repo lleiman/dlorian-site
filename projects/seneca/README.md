@@ -40,3 +40,18 @@ Note: fictional writing in **The Order** must not be treated as an actual Latin 
 Files: seneca.html, assets/css/seneca.css, assets/seneca/gallery.json, _build/pages.py, assets/seneca/scene-*.webp.
 
 The portfolio continues to count the existing 11 regular series separately from this editorial project.
+
+
+## Interactive exhibition update — 2026-10-25
+
+Light / luminosity: all paintings and reproductions use a non-destructive CSS brightness filter with 120% default. The LIGHT control in the sticky navigation opens a range slider (80–185%). Shortcuts: B toggles the panel, + and ] add 5%, - and [ subtract 5%, 0 resets to neutral 100%. Settings persist in localStorage. Viewer respects the same brightness setting, with source files unchanged.
+
+Artwork viewer: click any of the nine series paintings for a modal with a whole-image contain-fit presentation, interpretive description, title, count, arrow buttons, keyboard navigation and Esc. Touch swipe also works. External paintings in the historical section retain their institution links.
+
+Artist's statement: author affirms that before this series he read Seneca's philosophical writings, his letters, and Tacitus. The note expresses a pursuit of historical and psychological fidelity where sources permit, while explicitly distinguishing visual invention from historical fact.
+
+Audio: assets/seneca/seneca-study-01.mp3 is an original 48-second procedural ambient study in D minor. It is a **placeholder original composition, not a Suno-generated track**. The fixed page player has actual play/pause, progress and volume, starts only after user interaction, loops while playing. Replace the sound file or change the player's src when a finished Suno export is approved.
+
+Suno instrumental brief: Dark, intimate neoclassical ambient for a nine-image visual narrative about Seneca's final hours, AD 65. Four to five minutes; continuously evolving deep bowed double bass and cello harmonics, shadowed viola drones, distant bronze resonance, faint granular air, long stone-chamber reverberation. D minor with occasional modal inflections, unresolved sparse dissonance, almost imperceptible rhythm, no climax, grief without melodrama, deliberate fade into silence. No vocals, no spoken words, no heroic trailer scoring, no percussion beat, no bright modern piano, no arpeggios or EDM elements.
+
+New client script: assets/js/seneca-experience.js.
