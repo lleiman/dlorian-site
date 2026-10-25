@@ -44,7 +44,7 @@ ADMIN_TOKEN = os.environ.get("ADMIN_TOKEN", "")
 # the original WebP images are never changed.
 SENECA_LIGHT_FILE = DATA_DIR / "seneca-brightness.json"
 SENECA_LIGHT_DEFAULT = 1.2
-SENECA_FRAME_IDS = tuple(f"{n:02d}" for n in range(1, 10))
+SENECA_FRAME_IDS = tuple(f"{n:02d}" for n in range(1, 9))
 SENECA_LIGHT_LOCK = Lock()
 
 def _valid_light(value):
@@ -63,11 +63,18 @@ def _read_seneca_lights():
     try:
         data = json.loads(SENECA_LIGHT_FILE.read_text(encoding="utf-8"))
         if isinstance(data, dict):
-            for k, val in data.items():
-                if k in values:
-                    clean = _valid_light(val)
+            # Version 1 stored brightness under the previous nine IMAGE POSITIONS.
+            # Reassociate saved edits with paintings, rather than with old slots.
+            if data.get("_version") == 2:
+                mapping = {n: n for n in SENECA_FRAME_IDS}
+            else:
+                mapping = {"01":"01","02":"02","03":"03","07":"04",
+                           "05":"05","06":"06","09":"07","04":"08"}
+            for previous_id, current_id in mapping.items():
+                if previous_id in data:
+                    clean = _valid_light(data[previous_id])
                     if clean is not None:
-                        values[k] = clean
+                        values[current_id] = clean
     except (OSError, json.JSONDecodeError):
         pass
     return values
@@ -346,7 +353,7 @@ def seneca_update_brightness():
         values[image_id] = value
         temp = SENECA_LIGHT_FILE.with_suffix(".json.tmp")
         try:
-            temp.write_text(json.dumps(values, sort_keys=True), encoding="utf-8")
+            temp.write_text(json.dumps({**values, "_version": 2}, sort_keys=True), encoding="utf-8")
             temp.replace(SENECA_LIGHT_FILE)  # atomic update on Railway volume
         except OSError:
             return jsonify({"error": "could not save"}), 500

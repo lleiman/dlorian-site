@@ -1,12 +1,12 @@
 {
   "project": "The Death of Seneca",
-  "version": 4,
+  "version": 5,
   "status": "published",
   "year": 2026,
-  "image_count": 9,
+  "image_count": 8,
   "preview": "assets/seneca/scene-04-last-hours.webp",
-  "narrative_order": "Villa → Summons → Order → Last Hours → Hand → Paulina → Seneca → Bath → Empty Room",
-  "notes": "The preview uses scene 04. Gallery shows all nine images once in chronological/artistic sequence. Four brief Latin extracts from Tacitus are interleaved, with English editorial translations. Source letters on scene 03 are pictorial invention, not authentic Latin.",
+  "narrative_order": "Villa → Summons → Order → Seneca → Hand → Paulina → Empty Room → Last Hours",
+  "notes": "Gallery shows eight unique works. The former number 08 (Bath) is not displayed. Portrait Seneca moved to position 04; The Last Hours moved to position 08; the former final Empty Room moved to position 07. Original source image filenames have been kept unchanged for provenance. Homepage and cover retain the crimson Last Hours painting. Three Tacitus interludes remain.",
   "frames": [
     {
       "id": "01",
@@ -37,9 +37,9 @@
     },
     {
       "id": "04",
-      "title": "The Last Hours",
-      "src": "assets/seneca/scene-04-last-hours.webp",
-      "alt": "The seated philosopher surrounded by witnesses in a monumental dark chamber, a bronze basin in the foreground.",
+      "title": "Seneca",
+      "src": "assets/seneca/scene-07-seneca.webp",
+      "alt": "A gaunt elderly man's face and upper body emerge softly from the darkness.",
       "width": 2048,
       "height": 1147,
       "status": "published"
@@ -64,27 +64,18 @@
     },
     {
       "id": "07",
-      "title": "Seneca",
-      "src": "assets/seneca/scene-07-seneca.webp",
-      "alt": "A gaunt elderly man's face and upper body emerge softly from the darkness.",
+      "title": "The Empty Room",
+      "src": "assets/seneca/scene-09-empty-room.webp",
+      "alt": "The Roman hall after the event, emptied of people, with a bronze basin, white drapery and distant cold blue light.",
       "width": 2048,
       "height": 1147,
       "status": "published"
     },
     {
       "id": "08",
-      "title": "The Bath",
-      "src": "assets/seneca/scene-08-bath.webp",
-      "alt": "A figure raises an arm from a steaming bath in a dimly glowing Roman interior.",
-      "width": 1456,
-      "height": 816,
-      "status": "published"
-    },
-    {
-      "id": "09",
-      "title": "The Empty Room",
-      "src": "assets/seneca/scene-09-empty-room.webp",
-      "alt": "The Roman hall after the event, emptied of people, with a bronze basin, white drapery and distant cold blue light.",
+      "title": "The Last Hours",
+      "src": "assets/seneca/scene-04-last-hours.webp",
+      "alt": "The seated philosopher surrounded by witnesses in a monumental dark chamber, a bronze basin in the foreground.",
       "width": 2048,
       "height": 1147,
       "status": "published"
@@ -110,13 +101,6 @@
       "latin": "lenta effugia sanguini praebebat",
       "english": "the blood could escape only slowly",
       "source": "ANNALS XV.63",
-      "kind": "Tacitus, Latin original (excerpt) / editorial English translation"
-    },
-    {
-      "after": "08",
-      "latin": "exim balneo inlatus et vapore eius exanimatus",
-      "english": "Then he was carried into a bath and died from its steam.",
-      "source": "ANNALS XV.64",
       "kind": "Tacitus, Latin original (excerpt) / editorial English translation"
     }
   ]

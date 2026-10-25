@@ -24,7 +24,7 @@ function applyLight(id){
   var pic=f.querySelector("img");
   if(pic)pic.style.setProperty("--seneca-light",String(amount));
  });
- if(id==="04"){
+ if(id==="08"){
   var cover=document.querySelector(".seneca-cover-picture img");
   if(cover)cover.style.setProperty("--seneca-light",String(amount));
  }
@@ -139,12 +139,12 @@ var descriptions={
  "01":"The villa at dusk. Seneca's final residence is imagined as monumental architecture. No surviving source establishes this building's appearance.",
  "02":"The arrival of soldiers. The official order reaches the philosopher, seen here from the soldiers' perspective.",
  "03":"The order. A document becomes an object of dread. Its lettering is invented for this painting, not a transcription of Tacitus or an ancient inscription.",
- "04":"The last hours. Seneca surrounded by those closest to him. The witnesses, basin and statuary are arranged as a painterly interpretation.",
+ "04":"Seneca. An imagined portrait of the philosopher. No reliable likeness from his final hours is known.",
  "05":"The hand. After the public space comes the vulnerable body. The historical account describes the opening of the veins.",
  "06":"Paulina. Seneca's wife wanted to share his death. Tacitus records the attempt and her survival, although the figures and arrangement here are imagined.",
- "07":"Seneca. An imagined portrait of the philosopher. No reliable likeness from his final hours is known.",
- "08":"The bath. Tacitus describes heated water and steam at the end of Seneca's protracted death. The gesture and lighting are pictorial inventions.",
- "09":"The empty room. The space remains after the people are gone. This final image is an artistic epilogue, not a fact stated in the ancient account."
+ "07":"The empty room. A space emptied of its people, imagined as the aftermath of the event rather than a fact described by Tacitus.",
+ "08":"The last hours. Seneca surrounded by witnesses in a monumental chamber. The concluding tableau is an imaginative synthesis, not an eyewitness reconstruction.",
+
 };
 function renderFrame(i){
  if(!figures.length||!dialog||!img)return;

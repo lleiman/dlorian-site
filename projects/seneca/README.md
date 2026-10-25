@@ -95,3 +95,22 @@ Reference records:
 - Jacques de l'Ange file: https://commons.wikimedia.org/wiki/File:Jacques_de_l%27Ange_-_Death_of_Seneca.jpeg
 - Tacitus manuscript: https://commons.wikimedia.org/wiki/File:Tacitus,_Annals,_Florence,_Plut._68,2.jpg
 - Printed first edition: https://commons.wikimedia.org/wiki/File:Tacitus,_Annales_XI-XVI,_editio_princeps,_ca._1471-72,_incipit.jpg
+
+
+## 2026-10-25 — eight-image rearrangement (latest editorial decision)
+
+The author requested the *eighth painting (The Bath) removed* from the public Seneca sequence, the old central red painting (The Last Hours, previously fourth) moved into slot eight, and the Seneca portrait (previously seventh) moved into slot four. To avoid duplicate artworks and keep a contiguous eight-picture gallery, the former ninth painting (The Empty Room) moves to slot seven. **The cover and homepage continue showing the red Last Hours painting**; only the order within the sequence changes.
+
+Current display order:
+01 The Villa / scene-01-villa.webp
+02 The Summons / scene-02-soldiers.webp
+03 The Order / scene-03-tablet.webp
+04 Seneca portrait / scene-07-seneca.webp
+05 The Hand / scene-05-hand.webp
+06 Paulina / scene-06-paulina.webp
+07 The Empty Room / scene-09-empty-room.webp
+08 The Last Hours / scene-04-last-hours.webp
+
+The Bath asset scene-08-bath.webp is retained in Git history/source assets but is **not rendered anywhere in the public gallery**. The bath remains a subject mentioned in Tacitus' historical record; no image is falsely described as The Bath. The interlude formerly placed after The Bath was removed. The other three selected Tacitus excerpts remain after images 02, 04 and 06.
+
+The per-image brightness settings on the Railway volume migrate from the old 9-position map to version 2. New 04 inherits former 07 (Seneca), new 07 inherits former 09 (Empty Room), and new 08 inherits former 04 (red tableau); edits to the six unchanged paintings persist. Frontend brightness API only reports 8 frames. Audio dialogue and transcript remain unchanged.
