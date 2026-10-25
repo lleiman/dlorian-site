@@ -24,7 +24,7 @@ function applyLight(id){
   var pic=f.querySelector("img");
   if(pic)pic.style.setProperty("--seneca-light",String(amount));
  });
- if(id==="08"){
+ if(id==="06"){
   var cover=document.querySelector(".seneca-cover-picture img");
   if(cover)cover.style.setProperty("--seneca-light",String(amount));
  }
@@ -141,10 +141,9 @@ var descriptions={
  "03":"The order. A document becomes an object of dread. Its lettering is invented for this painting, not a transcription of Tacitus or an ancient inscription.",
  "04":"Seneca. An imagined portrait of the philosopher. No reliable likeness from his final hours is known.",
  "05":"The hand. After the public space comes the vulnerable body. The historical account describes the opening of the veins.",
- "06":"Paulina. Seneca's wife wanted to share his death. Tacitus records the attempt and her survival, although the figures and arrangement here are imagined.",
- "07":"The empty room. A space emptied of its people, imagined as the aftermath of the event rather than a fact described by Tacitus.",
- "08":"The last hours. Seneca surrounded by witnesses in a monumental chamber. The concluding tableau is an imaginative synthesis, not an eyewitness reconstruction.",
-
+ "06":"The last hours. Seneca surrounded by witnesses in a monumental chamber. The concluding tableau is an imaginative synthesis, not an eyewitness reconstruction.",
+ "07":"Paulina. Seneca's wife wanted to share his death. Tacitus records the attempt and her survival, although the figures and arrangement here are imagined.",
+ "08":"The empty room. A space emptied of its people, imagined as the aftermath of the event rather than a fact described by Tacitus."
 };
 function renderFrame(i){
  if(!figures.length||!dialog||!img)return;

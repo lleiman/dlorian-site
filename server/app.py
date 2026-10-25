@@ -65,11 +65,17 @@ def _read_seneca_lights():
         if isinstance(data, dict):
             # Version 1 stored brightness under the previous nine IMAGE POSITIONS.
             # Reassociate saved edits with paintings, rather than with old slots.
-            if data.get("_version") == 2:
+            if data.get("_version") == 3:
                 mapping = {n: n for n in SENECA_FRAME_IDS}
+            elif data.get("_version") == 2:
+                # Earlier 8-image display: 08 Last Hours -> 06;
+                # 06 Paulina -> 07; 07 Empty Room -> 08.
+                mapping = {"01":"01","02":"02","03":"03","04":"04",
+                           "05":"05","08":"06","06":"07","07":"08"}
             else:
+                # Original 9-image gallery, if no editor save was made since.
                 mapping = {"01":"01","02":"02","03":"03","07":"04",
-                           "05":"05","06":"06","09":"07","04":"08"}
+                           "05":"05","04":"06","06":"07","09":"08"}
             for previous_id, current_id in mapping.items():
                 if previous_id in data:
                     clean = _valid_light(data[previous_id])
@@ -353,7 +359,7 @@ def seneca_update_brightness():
         values[image_id] = value
         temp = SENECA_LIGHT_FILE.with_suffix(".json.tmp")
         try:
-            temp.write_text(json.dumps({**values, "_version": 2}, sort_keys=True), encoding="utf-8")
+            temp.write_text(json.dumps({**values, "_version": 3}, sort_keys=True), encoding="utf-8")
             temp.replace(SENECA_LIGHT_FILE)  # atomic update on Railway volume
         except OSError:
             return jsonify({"error": "could not save"}), 500

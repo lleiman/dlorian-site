@@ -114,3 +114,21 @@ Current display order:
 The Bath asset scene-08-bath.webp is retained in Git history/source assets but is **not rendered anywhere in the public gallery**. The bath remains a subject mentioned in Tacitus' historical record; no image is falsely described as The Bath. The interlude formerly placed after The Bath was removed. The other three selected Tacitus excerpts remain after images 02, 04 and 06.
 
 The per-image brightness settings on the Railway volume migrate from the old 9-position map to version 2. New 04 inherits former 07 (Seneca), new 07 inherits former 09 (Empty Room), and new 08 inherits former 04 (red tableau); edits to the six unchanged paintings persist. Frontend brightness API only reports 8 frames. Audio dialogue and transcript remain unchanged.
+
+
+## 2026-10-25 — final adjustment: red tableau in position 6
+
+The author specified that previous frame 08 (**The Last Hours**, crimson group painting) belongs in slot 06. Frames 01–05 are unchanged; the remaining two works are shifted right. **The Empty Room is the final eighth image.** Gallery order:
+
+01 The Villa (scene-01-villa.webp)
+02 The Summons (scene-02-soldiers.webp)
+03 The Order (scene-03-tablet.webp)
+04 Seneca (scene-07-seneca.webp)
+05 The Hand (scene-05-hand.webp)
+06 The Last Hours (scene-04-last-hours.webp)
+07 Paulina (scene-06-paulina.webp)
+08 The Empty Room (scene-09-empty-room.webp)
+
+The same crimson painting remains the hero and site home card. The Bath remains omitted. The existing three interludes and audio system remain intact, with the third Tacitus blood passage after frame 06.
+
+Editor brightness on persistent Railway volume is migrated by **image identity**: prior eight-image version-2 positions 08→06, 06→07 and 07→08. An old nine-image version-1 file maps original positions 04→06, 06→07 and 09→08. Saving after migration writes version 3. No saved image treatment is intentionally discarded.
