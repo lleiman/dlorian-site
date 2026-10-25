@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400&display=swap">
 <link rel="stylesheet" href="assets/css/style.css?v=33">
-<link rel="stylesheet" href="assets/css/seneca.css?v=6">
+<link rel="stylesheet" href="assets/css/seneca.css?v=7">
 </head>
 <body class="seneca">
 <a class="seneca-skip" href="#sequence">Skip to the images</a>
@@ -74,10 +74,14 @@
 <section class="seneca-commentary seneca-archive" aria-labelledby="archive-title"><div class="seneca-section-top"><span>04 / THE MANUSCRIPT</span><span>FLORENCE · XI CENTURY</span></div><div class="seneca-editorial-grid"><h2 id="archive-title">What remains<br>of the record.</h2><div class="seneca-editorial-prose"><p>Our access to Tacitus comes through manuscripts copied centuries after Seneca's lifetime. Among the witnesses to the later books of the <em>Annals</em> is the eleventh-century Laurentian manuscript Plut. 68.2, held in Florence.</p><p>The manuscript is a material witness to the text's transmission. It is not a contemporary record of the events in AD 65.</p><div class="seneca-text-links"><a href="https://iiif.biblissima.fr/collections/manifest/7732b9be3e8d876682156a09a60aeb9b863c5e23" target="_blank" rel="noopener noreferrer">VIEW DIGITIZED MANUSCRIPT ↗</a></div></div></div></section>
 <footer class="seneca-footer"><span>DLORIAN / 2026</span><p>THE DEATH OF SENECA</p><a href="index.html">← ALL WORK</a></footer>
 </main>
-<aside class="seneca-music-player" aria-label="Soundtrack player">
+<aside class="seneca-music-player" aria-label="Sound for this exhibition">
   <audio id="seneca-track" src="assets/seneca/seneca-study-01.mp3" preload="metadata" loop></audio>
-  <div class="seneca-music-heading"><span>SOUND / STUDY I</span><span>ORIGINAL AMBIENT SKETCH</span></div>
-  <div class="seneca-music-controls"><button id="seneca-play" type="button" aria-label="Play soundtrack">PLAY</button><div class="seneca-music-progress"><input type="range" min="0" max="1000" value="0" step="1" id="seneca-progress" aria-label="Audio position"><span id="seneca-time">00:00 / 00:48</span></div><label for="seneca-volume" class="seneca-volume-label">VOL</label><input id="seneca-volume" type="range" min="0" max="1" step="0.05" value="0.62" aria-label="Volume"></div>
+  <div class="seneca-music-controls">
+    <button id="seneca-play" type="button" aria-label="Play soundtrack"><span class="seneca-play-icon" aria-hidden="true">▶</span><span class="seneca-play-word">PLAY</span></button>
+    <div class="seneca-music-heading"><span>SOUND / 001</span><strong>THE ROOM AFTER <small>· STUDY</small></strong></div>
+    <div class="seneca-music-progress"><input type="range" min="0" max="1000" value="0" step="1" id="seneca-progress" aria-label="Audio position"><span id="seneca-time" aria-live="off">00:00 / 00:48</span></div>
+    <div class="seneca-music-volume"><label for="seneca-volume">VOL</label><input id="seneca-volume" type="range" min="0" max="1" step="0.05" value="0.62" aria-label="Volume"></div>
+  </div>
 </aside>
 <dialog id="seneca-viewer" class="seneca-viewer" aria-label="Artwork detail">
   <div class="seneca-view-shell">
@@ -86,6 +90,6 @@
     <div class="seneca-view-footer"><div><strong class="seneca-view-title">ARTWORK</strong><p class="seneca-view-description"></p></div><small>← → NAVIGATE · ESC CLOSE</small></div>
   </div>
 </dialog>
-<script src="assets/js/seneca-experience.js?v=2" defer></script>
+<script src="assets/js/seneca-experience.js?v=3" defer></script>
 </body>
 </html>

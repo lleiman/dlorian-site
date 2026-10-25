@@ -198,6 +198,8 @@ var play=document.getElementById("seneca-play");
 var progress=document.getElementById("seneca-progress");
 var volume=document.getElementById("seneca-volume");
 var time=document.getElementById("seneca-time");
+var playIcon=play?.querySelector(".seneca-play-icon");
+var playWord=play?.querySelector(".seneca-play-word");
 function mmss(n){if(!isFinite(n))n=0;n=Math.floor(n);return String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0");}
 function refreshTime(){
  if(!audio)return;
@@ -208,14 +210,14 @@ function refreshTime(){
 if(audio&&play){
  audio.volume=.62;
  play.addEventListener("click",function(){
-  if(audio.paused){var promise=audio.play();if(promise&&promise.catch)promise.catch(function(){play.textContent="PLAY";});}
+  if(audio.paused){var promise=audio.play();if(promise&&promise.catch)promise.catch(function(){if(playWord)playWord.textContent="PLAY";if(playIcon)playIcon.textContent="▶";});}
   else audio.pause();
  });
- audio.addEventListener("play",function(){play.textContent="PAUSE";play.setAttribute("aria-label","Pause soundtrack");});
- audio.addEventListener("pause",function(){play.textContent="PLAY";play.setAttribute("aria-label","Play soundtrack");});
+ audio.addEventListener("play",function(){if(playWord)playWord.textContent="PAUSE";if(playIcon)playIcon.textContent="Ⅱ";play.setAttribute("aria-label","Pause soundtrack");});
+ audio.addEventListener("pause",function(){if(playWord)playWord.textContent="PLAY";if(playIcon)playIcon.textContent="▶";play.setAttribute("aria-label","Play soundtrack");});
  audio.addEventListener("loadedmetadata",refreshTime);
  audio.addEventListener("timeupdate",refreshTime);
- audio.addEventListener("error",function(){play.disabled=true;play.textContent="UNAVAILABLE";});
+ audio.addEventListener("error",function(){play.disabled=true;if(playWord)playWord.textContent="OFFLINE";if(playIcon)playIcon.textContent="×";});
  if(progress)progress.addEventListener("input",function(){if(isFinite(audio.duration))audio.currentTime=Number(progress.value)/1000*audio.duration;refreshTime();});
  if(volume)volume.addEventListener("input",function(){audio.volume=Number(volume.value);});
  refreshTime();
