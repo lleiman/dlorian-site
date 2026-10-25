@@ -132,3 +132,12 @@ The author specified that previous frame 08 (**The Last Hours**, crimson group p
 The same crimson painting remains the hero and site home card. The Bath remains omitted. The existing three interludes and audio system remain intact, with the third Tacitus blood passage after frame 06.
 
 Editor brightness on persistent Railway volume is migrated by **image identity**: prior eight-image version-2 positions 08→06, 06→07 and 07→08. An old nine-image version-1 file maps original positions 04→06, 06→07 and 09→08. Saving after migration writes version 3. No saved image treatment is intentionally discarded.
+
+
+## 2026-10-25 — seven-image definitive visual sequence
+
+Author requested removing Paulina's standalone painting from the visual sequence after considering the montage. The LAST HOURS (red tableau) now cuts straight to THE EMPTY ROOM, which is the last image. The complete visual order is: The Villa, The Summons, The Order, Seneca (portrait), The Hand, The Last Hours, The Empty Room.
+
+Seven gallery images only; the previous Paulina and Bath image files are retained in repository history as source materials, but are not rendered in the work. Paulina remains accurately described in Tacitus context and the separate narrative audio dialogue (a different medium); no historical censorship is implied. Three Tacitus interludes remain after 02, 04 and 06.
+
+Brightness settings survive per image: existing version 3 gallery position 08 (Empty Room) maps to new 07; the red Last Hours stays in 06. Versions 1 and 2 are also mapped by artwork identity, and new saves write version 4. Cover and homepage continue to show the red tableau.

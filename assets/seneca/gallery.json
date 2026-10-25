@@ -1,12 +1,12 @@
 {
   "project": "The Death of Seneca",
-  "version": 6,
+  "version": 7,
   "status": "published",
   "year": 2026,
-  "image_count": 8,
+  "image_count": 7,
   "preview": "assets/seneca/scene-04-last-hours.webp",
-  "narrative_order": "Villa → Summons → Order → Seneca → Hand → Last Hours → Paulina → Empty Room",
-  "notes": "Eight unique works. The Last Hours red tableau is sixth, Paulina seventh, Empty Room eighth. Bath is not part of the display. Cover and homepage retain the red painting. Three Latin Tacitus excerpts after frames 02, 04 and 06. Image-specific brightness values migrate with works across gallery rearrangements.",
+  "narrative_order": "Villa → Summons → Order → Seneca → Hand → Last Hours → Empty Room",
+  "notes": "Seven paintings shown in order. Paulina and Bath are omitted from the visual sequence but remain part of the historical record, which also informs the separate dramatic sound study. Cover and homepage retain the red Last Hours painting. Three excerpts of Tacitus appear after frames 02, 04 and 06. Image-specific brightness levels are preserved when renumbering.",
   "frames": [
     {
       "id": "01",
@@ -64,15 +64,6 @@
     },
     {
       "id": "07",
-      "title": "Paulina",
-      "src": "assets/seneca/scene-06-paulina.webp",
-      "alt": "A reclining woman in pale fabric attended by three people in a very dark Roman room.",
-      "width": 2048,
-      "height": 1147,
-      "status": "published"
-    },
-    {
-      "id": "08",
       "title": "The Empty Room",
       "src": "assets/seneca/scene-09-empty-room.webp",
       "alt": "The Roman hall after the event, emptied of people, with a bronze basin, white drapery and distant cold blue light.",

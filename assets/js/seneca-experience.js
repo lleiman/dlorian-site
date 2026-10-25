@@ -142,8 +142,7 @@ var descriptions={
  "04":"Seneca. An imagined portrait of the philosopher. No reliable likeness from his final hours is known.",
  "05":"The hand. After the public space comes the vulnerable body. The historical account describes the opening of the veins.",
  "06":"The last hours. Seneca surrounded by witnesses in a monumental chamber. The concluding tableau is an imaginative synthesis, not an eyewitness reconstruction.",
- "07":"Paulina. Seneca's wife wanted to share his death. Tacitus records the attempt and her survival, although the figures and arrangement here are imagined.",
- "08":"The empty room. A space emptied of its people, imagined as the aftermath of the event rather than a fact described by Tacitus."
+ "07":"The empty room. A space emptied of its people, imagined as the aftermath of the event rather than a fact described by Tacitus."
 };
 function renderFrame(i){
  if(!figures.length||!dialog||!img)return;
