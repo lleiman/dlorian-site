@@ -1,83 +1,123 @@
 {
   "project": "The Death of Seneca",
-  "version": 3,
+  "version": 4,
   "status": "published",
   "year": 2026,
-  "image_count": 8,
-  "display_order": "The Chamber, Seneca, The Villa, The Summons, The Witnesses, The Bath, The Tablet, The Hand",
-  "note": "Eight uploaded DLORIAN images. Frame 01 is hero and is not repeated. Gallery 02–08 is server-rendered HTML, not dependent on JavaScript. Original initial Seneca composition preserved in Git history.",
+  "image_count": 9,
+  "preview": "assets/seneca/scene-04-last-hours.webp",
+  "narrative_order": "Villa → Summons → Order → Last Hours → Hand → Paulina → Seneca → Bath → Empty Room",
+  "notes": "The preview uses scene 04. Gallery shows all nine images once in chronological/artistic sequence. Four brief Latin extracts from Tacitus are interleaved, with English editorial translations. Source letters on scene 03 are pictorial invention, not authentic Latin.",
   "frames": [
     {
       "id": "01",
-      "title": "The Chamber",
-      "status": "published",
-      "src": "assets/seneca/frame-01.webp",
-      "alt": "A dark Roman interior after Seneca’s death, with a bronze basin, white drapery and a distant cold glow.",
+      "title": "The Villa",
+      "src": "assets/seneca/scene-01-villa.webp",
+      "alt": "The imagined Roman villa at dusk, monumental colonnades and a few figures approaching.",
       "width": 2048,
-      "height": 1147
+      "height": 1147,
+      "status": "published"
     },
     {
       "id": "02",
-      "title": "Seneca",
-      "status": "published",
-      "src": "assets/seneca/frame-02.webp",
-      "alt": "An intimate half-lit portrait of an elderly Seneca emerging from a nearly black room.",
+      "title": "The Summons",
+      "src": "assets/seneca/scene-02-soldiers.webp",
+      "alt": "Roman soldiers ascend a broad flight of stairs toward a glowing doorway.",
       "width": 2048,
-      "height": 1147
+      "height": 1147,
+      "status": "published"
     },
     {
       "id": "03",
-      "title": "The Villa",
-      "status": "published",
-      "src": "assets/seneca/frame-03.webp",
-      "alt": "A monumental Roman villa at dusk; distant figures approach a broad colonnaded facade.",
+      "title": "The Order",
+      "src": "assets/seneca/scene-03-tablet.webp",
+      "alt": "An imagined Roman inscription illuminated by fire beside shadowed figures.",
       "width": 2048,
-      "height": 1147
+      "height": 1147,
+      "status": "published"
     },
     {
       "id": "04",
-      "title": "The Summons",
-      "status": "published",
-      "src": "assets/seneca/frame-04.webp",
-      "alt": "Armoured Roman soldiers seen from behind, ascending the steps of a monumental dark entrance.",
+      "title": "The Last Hours",
+      "src": "assets/seneca/scene-04-last-hours.webp",
+      "alt": "The seated philosopher surrounded by witnesses in a monumental dark chamber, a bronze basin in the foreground.",
       "width": 2048,
-      "height": 1147
+      "height": 1147,
+      "status": "published"
     },
     {
       "id": "05",
-      "title": "The Witnesses",
-      "status": "published",
-      "src": "assets/seneca/frame-05.webp",
-      "alt": "A luminous reclining figure, attended by shadowed companions in a dark Roman interior.",
+      "title": "The Hand",
+      "src": "assets/seneca/scene-05-hand.webp",
+      "alt": "A close view of Seneca's outstretched hand suspended above a vessel in warm darkness.",
       "width": 2048,
-      "height": 1147
+      "height": 1147,
+      "status": "published"
     },
     {
       "id": "06",
-      "title": "The Bath",
-      "status": "published",
-      "src": "assets/seneca/frame-06.webp",
-      "alt": "A seated Seneca raises one arm from a steaming stone bath in a crimson-lit room.",
-      "width": 1456,
-      "height": 816
+      "title": "Paulina",
+      "src": "assets/seneca/scene-06-paulina.webp",
+      "alt": "A reclining woman in pale fabric attended by three people in a very dark Roman room.",
+      "width": 2048,
+      "height": 1147,
+      "status": "published"
     },
     {
       "id": "07",
-      "title": "The Tablet",
-      "status": "published",
-      "src": "assets/seneca/frame-07.webp",
-      "alt": "A large Roman-style inscription slab lit by warm embers beside indistinct standing figures.",
+      "title": "Seneca",
+      "src": "assets/seneca/scene-07-seneca.webp",
+      "alt": "A gaunt elderly man's face and upper body emerge softly from the darkness.",
       "width": 2048,
-      "height": 1147
+      "height": 1147,
+      "status": "published"
     },
     {
       "id": "08",
-      "title": "The Hand",
-      "status": "published",
-      "src": "assets/seneca/frame-08.webp",
-      "alt": "An outstretched, bloodied hand above a dark bowl, catching soft golden reflections.",
+      "title": "The Bath",
+      "src": "assets/seneca/scene-08-bath.webp",
+      "alt": "A figure raises an arm from a steaming bath in a dimly glowing Roman interior.",
+      "width": 1456,
+      "height": 816,
+      "status": "published"
+    },
+    {
+      "id": "09",
+      "title": "The Empty Room",
+      "src": "assets/seneca/scene-09-empty-room.webp",
+      "alt": "The Roman hall after the event, emptied of people, with a bronze basin, white drapery and distant cold blue light.",
       "width": 2048,
-      "height": 1147
+      "height": 1147,
+      "status": "published"
+    }
+  ],
+  "interludes": [
+    {
+      "after": "02",
+      "latin": "illo propinqua vespera tribunus venit",
+      "english": "Near evening, the tribune arrived.",
+      "source": "ANNALS XV.60",
+      "kind": "Tacitus, Latin original (excerpt) / editorial English translation"
+    },
+    {
+      "after": "04",
+      "latin": "imaginem vitae suae relinquere",
+      "english": "to leave behind an image of his life",
+      "source": "ANNALS XV.62",
+      "kind": "Tacitus, Latin original (excerpt) / editorial English translation"
+    },
+    {
+      "after": "06",
+      "latin": "lenta effugia sanguini praebebat",
+      "english": "the blood could escape only slowly",
+      "source": "ANNALS XV.63",
+      "kind": "Tacitus, Latin original (excerpt) / editorial English translation"
+    },
+    {
+      "after": "08",
+      "latin": "exim balneo inlatus et vapore eius exanimatus",
+      "english": "Then he was carried into a bath and died from its steam.",
+      "source": "ANNALS XV.64",
+      "kind": "Tacitus, Latin original (excerpt) / editorial English translation"
     }
   ]
 }
