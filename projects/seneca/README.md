@@ -141,3 +141,28 @@ Author requested removing Paulina's standalone painting from the visual sequence
 Seven gallery images only; the previous Paulina and Bath image files are retained in repository history as source materials, but are not rendered in the work. Paulina remains accurately described in Tacitus context and the separate narrative audio dialogue (a different medium); no historical censorship is implied. Three Tacitus interludes remain after 02, 04 and 06.
 
 Brightness settings survive per image: existing version 3 gallery position 08 (Empty Room) maps to new 07; the red Last Hours stays in 06. Versions 1 and 2 are also mapped by artwork identity, and new saves write version 4. Cover and homepage continue to show the red tableau.
+
+## 2026-10-25 — IMAGO VITAE / The Will He Could Not Write (CURRENT AUDIO)
+
+The previous reconstructed dialogue is archived. The active audio is a single-voice reading of selected fragments of Seneca's Letter 26 with a short narrated preface from Tacitus. It is NOT a fictional last will, his final known letter, or a historical transcript of spoken last words.
+
+Source boundaries:
+- The first two NARRATOR cues: editorial paraphrase of Tacitus, Annals XV.62. A centurion refuses Seneca the tablets for his will; Tacitus says he leaves an image of his life to friends.
+- The remaining 21 SENECA cues: selected and sometimes abridged original English translations of Epistulae morales 26.1-10, plus three exact Latin spoken passages. Every timed cue stores matching original Latin and a section reference.
+- Seneca's discussion of freedom in section 10 comments on an Epicurean maxim mentioned in section 8; the original attribution must not be erased.
+- Latin primary sources: https://www.altertum.uni-rostock.de/en/hsi-digital/online-texte/sen-epist-26/ and https://www.thelatinlibrary.com/tacitus/tac.ann15.shtml
+
+Assets:
+- assets/seneca/imago-vitae-letter.mp3: a 04:43 synthetic REHEARSAL-VOICE reading with original low-key ambient soundtrack. Not actor-quality.
+- assets/seneca/imago-vitae-score.mp3: time-aligned instrumental without spoken words.
+- assets/seneca/imago-vitae.json: 23 timed cues, with literal original Latin and attribution.
+- assets/seneca/imago-vitae.vtt: accessible synchronized WebVTT subtitles.
+- projects/seneca/audio/produce_imago_vitae.py: reproducible generation source (Python + numpy/scipy/soundfile + ffmpeg + espeak). Site versions use 48kbps stereo MP3 due upload transport constraints. Working masters use 112kbps stereo.
+- Previous seneca-dialogue-study.mp3, old transcript and score remain in repository as archived studies, not linked from live page.
+
+UI:
+- Full-width cinema footer: IMAGO VITAE / THE WILL HE COULD NOT WRITE.
+- LETTER / SCORE / SILENCE modes preserve position, with no autoplay.
+- Subtitles allow EN / LAT and CC ON/OFF independently; speaker labels only appear during narrated cues.
+- The full 23-passage letter transcription and historical methodology notes are collapsed by default. Each transcript cue is clickable to play it.
+- All seven paintings, original images, exhibition text, history archive and private brightness editor unchanged.

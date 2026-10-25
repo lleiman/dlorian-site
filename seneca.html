@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400&display=swap">
 <link rel="stylesheet" href="assets/css/style.css?v=33">
-<link rel="stylesheet" href="assets/css/seneca.css?v=9">
+<link rel="stylesheet" href="assets/css/seneca.css?v=10">
 </head>
 <body class="seneca">
 <a class="seneca-skip" href="#sequence">Skip to the images</a>
@@ -72,24 +72,25 @@
 </details></div></div>
 </section>
 <section class="seneca-audio-archive seneca-commentary" aria-labelledby="seneca-audio-archive-title">
-  <div class="seneca-section-top"><span>03 / THE SOUND</span><span>RECONSTRUCTION · ENGLISH / LATIN</span></div>
+  <div class="seneca-section-top"><span>03 / THE SOUND</span><span>SENECA · EPISTULA XXVI</span></div>
   <div class="seneca-editorial-grid">
-    <h2 id="seneca-audio-archive-title">The words<br>that remain.</h2>
+    <h2 id="seneca-audio-archive-title">The will<br>he could not write.</h2>
     <div class="seneca-editorial-prose">
-      <p>A three-minute dramatic reconstruction of Seneca and Pompeia Paulina, based on Tacitus and fragments from Seneca's own letters. Two voices, music, and an ending that leaves Paulina alive.</p>
+      <p><em>Imago Vitae</em> is a single-voice reading of selected passages from Seneca's Letter 26, framed by Tacitus' account of the will he was not allowed to write. Its ending leaves the room in silence.</p>
       <details class="seneca-source-disclosure">
-        <summary>ABOUT THE RECONSTRUCTION <span class="seneca-disclosure-mark" aria-hidden="true">＋</span></summary>
-        <p>The dialogue is imagined, not a surviving transcript. Seneca's letters are quoted only where identified; one Latin statement is reported as direct speech by Tacitus. Paulina's exact words are not preserved. According to Tacitus, Nero ordered her death prevented.</p>
-        <p>The voices in this sound study are synthetic rehearsal voices, not final actor performances. The instrumental composition is available independently in the player. Each line's source status appears in the full transcript.</p>
+        <summary>ABOUT THE TEXT &amp; RECORDING <span class="seneca-disclosure-mark" aria-hidden="true">＋</span></summary>
+        <p>Tacitus records that Seneca asked for tablets to write his will, was refused, and left his friends the <em>image of his life</em>. Those events are summarized in the two opening lines by an editorial narrator, not presented as verbatim speech. The remainder draws on <em>Epistulae morales ad Lucilium</em> 26.1–10. The spoken English passages are new editorial translations, sometimes abridged; the Latin selections are quoted from the original.</p>
+        <p><strong>This is not Seneca's last letter, a surviving will or a recording of his last words.</strong> No such written will is preserved. One synthetic rehearsal voice performs both the short introduction and the letter. The original instrumental score can be played independently. The voice is a draft for a future human or high-quality recorded performance.</p>
+        <p>The closing discussion of freedom in §10 follows Seneca's reflection on an Epicurean saying introduced in §8, rather than being presented as Seneca's original formulation.</p>
       </details>
       <details id="seneca-transcript" class="seneca-transcript">
-        <summary>EXPAND COMPLETE TRANSCRIPT / 21 REPLIES <span class="seneca-disclosure-mark" aria-hidden="true">＋</span></summary>
-        <ol class="seneca-transcript-lines" id="seneca-transcript-lines"><li>Loading the synchronized, sourced transcript…</li></ol>
+        <summary>READ SELECTED LETTER / 23 PASSAGES <span class="seneca-disclosure-mark" aria-hidden="true">＋</span></summary>
+        <ol class="seneca-transcript-lines" id="seneca-transcript-lines"><li>Loading the source-aligned transcript…</li></ol>
       </details>
       <div class="seneca-text-links">
-        <a href="assets/seneca/seneca-dialogue.vtt" target="_blank" rel="noopener">DOWNLOAD SUBTITLES / VTT ↗</a>
-        <a href="https://www.thelatinlibrary.com/tacitus/tac.ann15.shtml" target="_blank" rel="noopener noreferrer">TACITUS / ANNALES XV.62–64 ↗</a>
-        <a href="https://www.latin.it/autore/seneca/epistulae_morales_ad_lucilium/%2103%21liber_iii/026.lat" target="_blank" rel="noopener noreferrer">SENECA / EPISTULA 26 ↗</a>
+        <a href="assets/seneca/imago-vitae.vtt" target="_blank" rel="noopener">DOWNLOAD SUBTITLES / VTT ↗</a>
+        <a href="https://www.altertum.uni-rostock.de/en/hsi-digital/online-texte/sen-epist-26/" target="_blank" rel="noopener noreferrer">SENECA / EPISTULA XXVI ↗</a>
+        <a href="https://www.thelatinlibrary.com/tacitus/tac.ann15.shtml" target="_blank" rel="noopener noreferrer">TACITUS / ANNALES XV.62 ↗</a>
       </div>
     </div>
   </div>
@@ -122,23 +123,26 @@
 </section>
 <footer class="seneca-footer"><span>DLORIAN / 2026</span><p>THE DEATH OF SENECA</p><a href="index.html">← ALL WORK</a></footer>
 </main>
-<aside class="seneca-music-player" aria-label="Exhibition audio" data-audio-mode="dialogue">
-  <audio id="seneca-track" src="assets/seneca/seneca-dialogue-study.mp3" preload="metadata"></audio>
+<aside class="seneca-music-player" aria-label="Exhibition audio: Imago Vitae" data-audio-mode="letter" data-subtitle-lang="en">
+  <audio id="seneca-track" src="assets/seneca/imago-vitae-letter.mp3" preload="metadata"></audio>
   <div class="seneca-cinema-subtitles" id="seneca-captions" aria-live="off">
-    <span class="seneca-sub-speaker" id="seneca-cue-speaker">A DRAMATIZED RECONSTRUCTION · AD 65</span>
-    <span class="seneca-sub-line" id="seneca-cue-text">THE DEATH OF SENECA</span>
-    <span class="seneca-sub-translation" id="seneca-cue-translation"></span>
+    <span class="seneca-sub-speaker" id="seneca-cue-speaker"></span>
+    <span class="seneca-sub-line" id="seneca-cue-text"></span>
+    <span class="seneca-sub-translation" id="seneca-cue-translation" hidden></span>
   </div>
   <div class="seneca-audio-controls">
-    <div class="seneca-audio-label"><span>DLORIAN / SOUND</span><strong>THE ROOM AFTER</strong><small>DRAMATIC RECONSTRUCTION</small></div>
-    <button id="seneca-play" class="seneca-sound-play" type="button" aria-label="Play soundtrack"><span class="seneca-play-icon" aria-hidden="true">▶</span><span class="seneca-play-word">PLAY</span></button>
+    <div class="seneca-audio-label"><span>DLORIAN / SOUND 002</span><strong>IMAGO VITAE</strong><small>THE WILL HE COULD NOT WRITE</small></div>
+    <button id="seneca-play" class="seneca-sound-play" type="button" aria-label="Play Seneca letter"><span class="seneca-play-icon" aria-hidden="true">▶</span><span class="seneca-play-word">PLAY</span></button>
     <div class="seneca-sound-modes" role="group" aria-label="Listening mode">
-      <button type="button" data-mode="dialogue" aria-pressed="true">DIALOGUE</button>
+      <button type="button" data-mode="letter" aria-pressed="true">LETTER</button>
       <button type="button" data-mode="score" aria-pressed="false">SCORE</button>
       <button type="button" data-mode="silence" aria-pressed="false">SILENCE</button>
     </div>
-    <div class="seneca-music-progress"><input type="range" min="0" max="1000" value="0" step="1" id="seneca-progress" aria-label="Audio position"><span id="seneca-time">00:00 / 03:06</span></div>
-    <button type="button" id="seneca-cc" aria-pressed="true" title="Show or hide synchronized subtitles">CC ON</button>
+    <div class="seneca-music-progress"><input type="range" min="0" max="1000" value="0" step="1" id="seneca-progress" aria-label="Audio position"><span id="seneca-time">00:00 / 04:43</span></div>
+    <div class="seneca-caption-switches">
+      <button type="button" id="seneca-cc" aria-pressed="true" title="Show or hide synchronized subtitles">CC ON</button>
+      <button type="button" id="seneca-sub-lang" aria-label="Change subtitle language" title="Switch subtitles: English / Latin">EN</button>
+    </div>
     <div class="seneca-music-volume"><label for="seneca-volume">VOL</label><input id="seneca-volume" type="range" min="0" max="1" step="0.05" value="0.62" aria-label="Volume"></div>
     <a class="seneca-transcript-link" href="#seneca-transcript">TEXT ↗</a>
   </div>
@@ -150,6 +154,6 @@
     <div class="seneca-view-footer"><div><strong class="seneca-view-title">ARTWORK</strong><p class="seneca-view-description"></p></div><small>← → NAVIGATE · ESC CLOSE</small></div>
   </div>
 </dialog>
-<script src="assets/js/seneca-experience.js?v=8" defer></script>
+<script src="assets/js/seneca-experience.js?v=9" defer></script>
 </body>
 </html>

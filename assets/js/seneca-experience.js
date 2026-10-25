@@ -189,9 +189,10 @@ document.addEventListener("keydown",function(e){
 
 });
 
-/* SOUND DESIGN STUDY: two synchronized audio mixes, no autoplay.
-   Spoken dialogue is a sourced dramatic RECONSTRUCTION and is not a
-   documented verbatim exchange. All cue provenance is in public transcript. */
+/* IMAGO VITAE: selected passages from Seneca Letter 26, introduced via Tacitus 15.62.
+   Original editorial English translations; two exact Latin readings; one synthetic
+   rehearsal voice. Source labels live in full transcript, not floating subtitles.
+   No autoplay. SCORE and LETTER have identical durations and aligned playheads. */
 var audio=document.getElementById("seneca-track");
 var play=document.getElementById("seneca-play");
 var progress=document.getElementById("seneca-progress");
@@ -202,78 +203,83 @@ var cueText=document.getElementById("seneca-cue-text");
 var cueTranslation=document.getElementById("seneca-cue-translation");
 var cuePane=document.getElementById("seneca-captions");
 var ccButton=document.getElementById("seneca-cc");
+var langButton=document.getElementById("seneca-sub-lang");
 var transcript=document.getElementById("seneca-transcript-lines");
-var modeButtons=Array.prototype.slice.call(document.querySelectorAll("[data-mode]"));
+var player=document.querySelector(".seneca-music-player");
+var modeButtons=Array.prototype.slice.call(document.querySelectorAll(".seneca-sound-modes [data-mode]"));
 var playIcon=play?.querySelector(".seneca-play-icon");
 var playWord=play?.querySelector(".seneca-play-word");
 var sources={
- dialogue:"assets/seneca/seneca-dialogue-study.mp3",
- score:"assets/seneca/seneca-score-study.mp3"
+ letter:"assets/seneca/imago-vitae-letter.mp3",
+ score:"assets/seneca/imago-vitae-score.mp3"
 };
-var audioMode="dialogue",ccOn=true,cues=[],durationFallback=185.76;
+var audioMode="letter",ccOn=true,subtitleLang="en",cues=[],durationFallback=283;
 var savedSilenceTime=0;
-var transMap={
- "01":"You cannot know where death awaits you. Therefore await it everywhere.",
- "11":"I showed you the consolations of life. You prefer the honour of death.",
- "16":"I accept the condition. I do not fear the judgment."
-};
 function mmss(n){if(!isFinite(n))n=0;n=Math.floor(n);return String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0");}
-function descriptionOfCue(cue){
- // The historical status of every phrase is in the transcript, not in the film subtitles.
- return cue.speaker+(cue.language==="latin"?" / LATIN":"");
+function captionOf(c){
+ if(subtitleLang==="la"&&c.latin)return c.latin;
+ if(c.language==="la"&&c.translation)return c.translation;
+ return c.text;
 }
 function fillCaptions(){
  if(!cuePane||!cueSpeaker||!cueText)return;
- cuePane.hidden=audioMode!=="dialogue"||!ccOn;
+ cuePane.hidden=audioMode!=="letter"||!ccOn;
  if(cuePane.hidden)return;
- var sec=audio&&isFinite(audio.currentTime)?audio.currentTime:0;
- var cue=cues.find(function(c){return sec>=c.start&&sec<=c.end;});
- if(cue){
-  cueSpeaker.textContent=descriptionOfCue(cue);
-  cueText.textContent=cue.text;
-  if(cueTranslation){cueTranslation.textContent=transMap[cue.id]||"";cueTranslation.hidden=!transMap[cue.id];}
- }else{
-  // Cinematic captions appear ONLY while somebody speaks. Silence remains silence.
-  cueSpeaker.textContent="";
-  cueText.textContent="";
+ var second=audio&&isFinite(audio.currentTime)?audio.currentTime:0;
+ var cue=cues.find(function(c){return second>=c.start&&second<=c.end;});
+ if(!cue){
+  // No explanatory interruptions in the film captions. Silence is deliberate.
+  cueSpeaker.textContent="";cueText.textContent="";
   if(cueTranslation){cueTranslation.textContent="";cueTranslation.hidden=true;}
+  return;
+ }
+ cueSpeaker.textContent=cue.speaker==="NARRATOR"?"TACITUS / NARRATION":"SENECA / LETTER XXVI";
+ cueText.textContent=captionOf(cue);
+ var showTranslation=subtitleLang==="la"&&cue.language!=="la"&&Boolean(cue.latin);
+ if(cueTranslation){
+  cueTranslation.textContent=showTranslation?cue.text:"";
+  cueTranslation.hidden=!showTranslation;
  }
 }
 function updatePlayButton(){
  if(!play)return;
- var playing=audioMode!=="silence"&&audio&&!audio.paused;
- if(playIcon)playIcon.textContent=playing?"Ⅱ":"▶";
- if(playWord)playWord.textContent=audioMode==="silence"?"SILENT":playing?"PAUSE":"PLAY";
+ var active=audioMode!=="silence"&&audio&&!audio.paused;
+ if(playIcon)playIcon.textContent=active?"Ⅱ":"▶";
+ if(playWord)playWord.textContent=audioMode==="silence"?"SILENT":active?"PAUSE":"PLAY";
  play.disabled=audioMode==="silence";
- play.setAttribute("aria-label",playing?"Pause soundtrack":"Play soundtrack");
+ play.setAttribute("aria-label",active?"Pause audio":"Play audio");
 }
 function refreshTime(){
  if(!audio)return;
- var t=audioMode==="silence"?savedSilenceTime:(isFinite(audio.currentTime)?audio.currentTime:0);
- var len=isFinite(audio.duration)&&audio.duration>0?audio.duration:durationFallback;
- if(progress)progress.value=String(Math.min(1000,Math.round(t/len*1000)));
- if(time)time.textContent=mmss(t)+" / "+mmss(len);
+ var current=audioMode==="silence"?savedSilenceTime:(isFinite(audio.currentTime)?audio.currentTime:0);
+ var total=isFinite(audio.duration)&&audio.duration>0?audio.duration:durationFallback;
+ if(progress)progress.value=String(Math.min(1000,Math.round(current/total*1000)));
+ if(time)time.textContent=mmss(current)+" / "+mmss(total);
  fillCaptions();
 }
 function setMode(next,requestedPlay){
- if(!["dialogue","score","silence"].includes(next)||!audio)return;
+ if(!["letter","score","silence"].includes(next)||!audio)return;
  var wasPlaying=requestedPlay===true||(!audio.paused&&audioMode!=="silence");
- var prevTime=audioMode==="silence"?savedSilenceTime:audio.currentTime;
- if(!isFinite(prevTime)||prevTime<0)prevTime=0;
+ var previous=audioMode==="silence"?savedSilenceTime:audio.currentTime;
+ if(!isFinite(previous)||previous<0)previous=0;
  audio.pause();audioMode=next;
- document.querySelector(".seneca-music-player")?.setAttribute("data-audio-mode",next);
- modeButtons.forEach(function(btn){btn.setAttribute("aria-pressed",btn.getAttribute("data-mode")===next?"true":"false");});
+ if(player)player.setAttribute("data-audio-mode",next);
+ modeButtons.forEach(function(b){b.setAttribute("aria-pressed",b.getAttribute("data-mode")===next?"true":"false");});
  if(next==="silence"){
-  savedSilenceTime=prevTime;updatePlayButton();fillCaptions();refreshTime();return;
+  savedSilenceTime=previous;updatePlayButton();refreshTime();return;
  }
- var path=sources[next],isNew=!audio.currentSrc||!audio.currentSrc.endsWith(path);
- if(isNew){audio.src=path;audio.load();}
- function restore(){try{audio.currentTime=Math.min(prevTime,(audio.duration||durationFallback)-.1);}catch(_){}refreshTime();}
- if(isNew)audio.addEventListener("loadedmetadata",restore,{once:true});
+ var source=sources[next];
+ var changed=!audio.currentSrc||!audio.currentSrc.endsWith(source);
+ if(changed){audio.src=source;audio.load();}
+ function restore(){
+  try{audio.currentTime=Math.max(0,Math.min(previous,(audio.duration||durationFallback)-0.15));}catch(_){}
+  refreshTime();
+ }
+ if(changed)audio.addEventListener("loadedmetadata",restore,{once:true});
  else restore();
  if(wasPlaying){
-  var playPromise=audio.play();
-  if(playPromise&&playPromise.catch)playPromise.catch(function(){updatePlayButton();});
+  var promise=audio.play();
+  if(promise&&promise.catch)promise.catch(updatePlayButton);
  }
  updatePlayButton();refreshTime();
 }
@@ -292,8 +298,8 @@ if(audio&&play){
  audio.addEventListener("ended",updatePlayButton);
  audio.addEventListener("error",function(){if(playWord)playWord.textContent="UNAVAILABLE";play.disabled=true;});
  if(progress)progress.addEventListener("input",function(){
-  var len=isFinite(audio.duration)&&audio.duration>0?audio.duration:durationFallback;
-  var point=Number(progress.value)/1000*len;
+  var total=isFinite(audio.duration)&&audio.duration>0?audio.duration:durationFallback;
+  var point=Number(progress.value)/1000*total;
   if(audioMode==="silence")savedSilenceTime=point;
   else if(audio.readyState>=1)audio.currentTime=point;
   refreshTime();
@@ -303,31 +309,54 @@ if(audio&&play){
   ccOn=!ccOn;ccButton.textContent=ccOn?"CC ON":"CC OFF";
   ccButton.setAttribute("aria-pressed",ccOn?"true":"false");fillCaptions();
  });
- updatePlayButton();
- refreshTime();
+ if(langButton)langButton.addEventListener("click",function(){
+  subtitleLang=subtitleLang==="en"?"la":"en";
+  langButton.textContent=subtitleLang==="en"?"EN":"LAT";
+  langButton.setAttribute("aria-label",subtitleLang==="en"?"Subtitle language: English; switch to Latin":"Subtitle language: Latin; switch to English");
+  if(player)player.setAttribute("data-subtitle-lang",subtitleLang);
+  fillCaptions();
+ });
+ updatePlayButton();refreshTime();
 }
 function insertTranscript(list){
  if(!transcript)return;
  transcript.textContent="";
- if(!list.length){var li=document.createElement("li");li.textContent="Transcript unavailable.";transcript.appendChild(li);return;}
+ if(!list.length){
+  var error=document.createElement("li");error.textContent="Transcript temporarily unavailable.";transcript.appendChild(error);return;
+ }
  list.forEach(function(c){
   var li=document.createElement("li");
-  var button=document.createElement("button");
-  button.type="button";button.className="seneca-transcript-jump";
-  button.textContent=mmss(c.start);button.setAttribute("aria-label","Jump to "+mmss(c.start));
+  var button=document.createElement("button");button.type="button";button.className="seneca-transcript-jump";
+  button.textContent=mmss(c.start);
+  button.setAttribute("aria-label","Play passage at "+mmss(c.start));
   button.addEventListener("click",function(){
-   setMode("dialogue",false);
-   function jump(){try{audio.currentTime=c.start;}catch(_){}refreshTime();if(audio.paused){var p=audio.play();if(p&&p.catch)p.catch(updatePlayButton);}}
+   setMode("letter",false);
+   function jump(){
+    try{audio.currentTime=c.start;}catch(_){}
+    refreshTime();
+    if(audio.paused){var p=audio.play();if(p&&p.catch)p.catch(updatePlayButton);}
+   }
    if(audio.readyState>=1)jump();else audio.addEventListener("loadedmetadata",jump,{once:true});
   });
   var speech=document.createElement("div");
-  var who=document.createElement("strong");who.textContent=c.speaker+" · "+(c.language==="latin"?"LATIN":"ENGLISH");
-  var p=document.createElement("p");p.textContent=c.text;
+  var who=document.createElement("strong");
+  who.textContent=(c.speaker==="NARRATOR"?"TACITUS / EDITORIAL NARRATION":"SENECA / LETTER 26")+
+   " · "+(c.language==="la"?"LATIN":"ENGLISH");
+  var p=document.createElement("p");
+  p.textContent=c.text;
+  speech.append(who,p);
+  if(c.language==="la"&&c.translation){
+   var render=document.createElement("p");render.className="seneca-transcript-translation";render.textContent=c.translation;
+   speech.append(render);
+  }else if(c.latin){
+   var original=document.createElement("p");original.className="seneca-transcript-latin";
+   original.lang="la";original.textContent=c.latin;speech.append(original);
+  }
   var small=document.createElement("small");small.textContent=c.source;
-  speech.append(who,p,small);li.append(button,speech);transcript.appendChild(li);
+  speech.append(small);li.append(button,speech);transcript.appendChild(li);
  });
 }
-fetch("assets/seneca/seneca-dialogue.json",{cache:"force-cache"}).then(function(r){
+fetch("assets/seneca/imago-vitae.json",{cache:"force-cache"}).then(function(r){
  if(!r.ok)throw Error("transcript not found");
  return r.json();
 }).then(function(data){

@@ -339,3 +339,71 @@ details[open] > summary .seneca-disclosure-mark{transform:rotate(45deg)}
  .seneca-manuscript-gallery img{max-height:520px}
  .seneca-archive-note{text-align:left}
 }
+
+
+/* IMAGO VITAE / 2026-10-25 — subtitle language and one-voice reading. */
+.seneca-audio-controls{
+ grid-template-columns:minmax(135px,156px) 62px auto minmax(90px,1fr) 104px 72px 48px;
+}
+.seneca-caption-switches{
+ display:flex;align-items:center;gap:5px;
+}
+.seneca-caption-switches button{
+ background:transparent;border:1px solid #474747;
+ color:#c5c5c5;min-height:30px;padding:0 7px;
+ font:400 9px/1 "IBM Plex Mono",monospace;
+ letter-spacing:.06em;white-space:nowrap;cursor:pointer;
+}
+#seneca-cc{min-width:50px}
+#seneca-sub-lang{min-width:36px}
+#seneca-sub-lang:hover,.seneca-caption-switches button:hover{border-color:#aaa;color:#fff}
+.seneca-audio-label strong{font-size:11px;letter-spacing:.1em}
+.seneca-audio-label small{font-size:8px;letter-spacing:.03em;line-height:1.2;white-space:normal;color:#969696}
+.seneca-cinema-subtitles{height:auto;min-height:85px;gap:4px}
+.seneca-sub-speaker:empty,.seneca-sub-line:empty{display:none}
+.seneca-music-player[data-subtitle-lang="la"] .seneca-sub-line{
+ font-size:clamp(12px,1.3vw,17px);max-width:1100px;line-height:1.28;
+}
+.seneca-transcript-lines p.seneca-transcript-latin{
+ font:italic 400 14px/1.54 Georgia,serif;
+ color:#bdb5ac;margin-top:6px;margin-bottom:6px;
+}
+.seneca-transcript-lines p.seneca-transcript-translation{
+ font:400 14px/1.5 "IBM Plex Sans",sans-serif;color:#ad9c91;margin-top:6px;
+}
+@media(max-width:1180px){
+ .seneca-audio-controls{grid-template-columns:128px 58px auto minmax(70px,1fr) 102px 45px;gap:12px}
+ .seneca-music-volume{display:none}
+}
+@media(max-width:820px){
+ .seneca-audio-controls{
+  grid-template-columns:110px 52px minmax(0,1fr) 102px;
+  grid-template-areas:"label play modes captions" "progress progress progress text";
+  column-gap:12px;row-gap:9px
+ }
+ .seneca-caption-switches{grid-area:captions}
+ .seneca-audio-label{grid-area:label}
+ .seneca-sound-play{grid-area:play}
+ .seneca-sound-modes{grid-area:modes}
+ .seneca-music-progress{grid-area:progress}
+ .seneca-transcript-link{grid-area:text}
+ .seneca-caption-switches button{padding:0 6px;font-size:9px}
+}
+@media(max-width:540px){
+ body.seneca{padding-bottom:184px}
+ .seneca-audio-controls{
+  grid-template-columns:45px minmax(0,1fr) 96px;
+  grid-template-areas:"play modes captions" "progress progress text";
+  padding:10px 12px 12px;gap:8px;
+ }
+ .seneca-audio-label{display:none}
+ .seneca-caption-switches{gap:3px}
+ .seneca-caption-switches button{min-height:28px;padding:0 4px;font-size:8px}
+ #seneca-cc{min-width:47px}
+ #seneca-sub-lang{min-width:34px}
+ .seneca-sound-modes button{padding:0 4px;font-size:8px}
+ .seneca-cinema-subtitles{height:auto;min-height:100px;padding:9px 11px}
+ .seneca-sub-line{font-size:13px}
+ .seneca-sub-translation{font-size:10px}
+ .seneca-music-player[data-subtitle-lang="la"] .seneca-sub-line{font-size:12px}
+}
