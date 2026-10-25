@@ -221,12 +221,8 @@ var transMap={
 };
 function mmss(n){if(!isFinite(n))n=0;n=Math.floor(n);return String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0");}
 function descriptionOfCue(cue){
- if(cue.language==="latin"){
-  if(cue.source.includes("Epistulae"))return "SENECA · EARLIER LETTER / EXACT LATIN";
-  return "SENECA · AS REPORTED BY TACITUS / LATIN";
- }
- if(cue.source.toLowerCase().includes("english rendering"))return "SENECA · TACITUS / ENGLISH RENDERING";
- return cue.speaker+" · RECONSTRUCTED DIALOGUE";
+ // The historical status of every phrase is in the transcript, not in the film subtitles.
+ return cue.speaker+(cue.language==="latin"?" / LATIN":"");
 }
 function fillCaptions(){
  if(!cuePane||!cueSpeaker||!cueText)return;
@@ -239,8 +235,9 @@ function fillCaptions(){
   cueText.textContent=cue.text;
   if(cueTranslation){cueTranslation.textContent=transMap[cue.id]||"";cueTranslation.hidden=!transMap[cue.id];}
  }else{
-  cueSpeaker.textContent="THE DEATH OF SENECA / 2026";
-  cueText.textContent=sec>173?"AFTER THE WORDS, THE ROOM.":"A DRAMATIZED CONVERSATION · SENECA & PAULINA";
+  // Cinematic captions appear ONLY while somebody speaks. Silence remains silence.
+  cueSpeaker.textContent="";
+  cueText.textContent="";
   if(cueTranslation){cueTranslation.textContent="";cueTranslation.hidden=true;}
  }
 }

@@ -79,3 +79,19 @@ Historicity:
 Production warning: eSpeak speech voices are **rough demo-quality**, intentionally labelled as synthetic rehearsal voices. They are not definitive actor-grade performances. Replace both original mp3s with time-aligned professionally voiced/mixed versions once approved; align captions to final timings. Keep `dialogue.json` and `dialogue.vtt` in sync.
 
 Original generated audio source and cue generator: `/mnt/data/seneca_drama/produce.py` in the current work container (not committed). The two output mp3s and supporting transcript are committed to the site repository.
+
+## 2026-10-25 — compact sound archive and art history extension
+
+- Full 21-reply transcript defaults **collapsed** (<details> without open) for quieter reading. Supplemental description of reconstructed audio is also collapsed.
+- Film subtitle lane displays only actual spoken words and speaker name (and Latin translation when appropriate); it is blank in pauses, with no DRAMATIZED/RECONSTRUCTED filler. "DRAMATIC RECONSTRUCTION" stays on the player label and in the expanded commentary.
+- Historical context expanded to six works: Rubens (Alte Pinakothek), workshop of Gerard van Honthorst (Centraal Museum 4498, 1623–27), Jacques de l'Ange (c.1640–50; attribution based on catalogue records), Luca Giordano (Louvre MI 871, c.1684–85), David (Petit Palais PDUT1154, 1773), and Manuel Domínguez Sánchez (Prado, 1871). Public-domain historical artworks are served from Wikimedia Commons and credited to their source collections.
+- No fabricated "ancient scrolls" used. Actual manuscript: Codex Laurentianus Mediceus Plut.68.2 fol.6v, 11th century. The photographed folio depicts Annals XI/XII, NOT the Seneca passage XV.60–64. The other image is the incipit of the printed first edition of Annals XI–XVI (Venice c.1471–72), NOT the actual paragraph describing Seneca.
+- The record section contains six collapsible verified Latin selections from Tacitus XV.60–64 with brief editorial English translations, distinguished from the fictional dialogue.
+
+Reference records:
+- Honthorst: https://www.centraalmuseum.nl/en/collection/4498-de-dood-van-seneca-gerard-van-honthorst
+- Giordano: https://collections.louvre.fr/ark:/53355/cl010059591
+- Domínguez Sánchez: https://www.museodelprado.es/aprende/enciclopedia/voz/dominguez-sanchez-manuel/112973e3-a8cd-4533-a027-ec250d94725c
+- Jacques de l'Ange file: https://commons.wikimedia.org/wiki/File:Jacques_de_l%27Ange_-_Death_of_Seneca.jpeg
+- Tacitus manuscript: https://commons.wikimedia.org/wiki/File:Tacitus,_Annals,_Florence,_Plut._68,2.jpg
+- Printed first edition: https://commons.wikimedia.org/wiki/File:Tacitus,_Annales_XI-XVI,_editio_princeps,_ca._1471-72,_incipit.jpg
